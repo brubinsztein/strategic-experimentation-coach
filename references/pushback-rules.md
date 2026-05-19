@@ -20,7 +20,7 @@ Each phase below lists: the criteria, what the skill says when triggered, and wo
 
 ## Changelog
 
-- **v0.1 (initial)** — drafted from synthesis of Cagan, Torres, Bland, Gilad, and Longden/Speero frameworks, plus the team's own working hypothesis tree.
+- **v0.1 (initial)** — drafted from synthesis of Cagan, Torres, Bland, Gilad, and Longden/Speero frameworks.
 
 ---
 

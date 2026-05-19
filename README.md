@@ -93,8 +93,6 @@ Issues and PRs welcome. The skill is v0.1 and expected to evolve.
 
 To extend the pattern library for a different domain (B2B SaaS, marketplaces, e-commerce), add a section to `references/pattern-library.md` Part 3 with the typical assumption sets for the domain and add domain-specific anti-patterns to Part 5. Send a PR.
 
-To fork the methodology and build a different coaching skill, see `docs/build-prompt.md`. That file is the prompt that produced this repo.
-
 ## License
 
 MIT. See [LICENSE](LICENSE).

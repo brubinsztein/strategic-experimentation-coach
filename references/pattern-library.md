@@ -6,7 +6,7 @@
 
 ## Changelog
 
-- **v0.2** — Rebalanced Part 4 worked examples (moved from a single team-specific tree to varied examples drawn from research). Made Part 3 caveat its engagement/retention focus more explicitly. Light edits for plain-prose style.
+- **v0.2** — Rebalanced Part 4 worked examples to draw from varied domains. Made Part 3 caveat its engagement/retention focus more explicitly. Light edits for plain-prose style.
 - **v0.1** — Initial draft synthesised from Cagan, Torres, Bland, Gilad, and Longden/Speero frameworks.
 
 ---
@@ -16,7 +16,7 @@
 Two layers:
 
 - **General framework layer** (Parts 1–2): the hierarchy, assumption types, experiment ladder, hypothesis formulation. Applies to any product question.
-- **Domain layer** (Parts 3–5): patterns tuned to engagement, retention, and content products — the team's primary domain. Most calls will land here. Other domains will need their own pattern sets added over time.
+- **Domain layer** (Parts 3–5): patterns tuned to engagement, retention, and content products. Most calls in that domain will land here. Other domains will need their own pattern sets added over time.
 
 When the skill suggests options to the user (e.g. "what strategic hypotheses might answer this?"), it pulls candidates from the relevant patterns, proposes them, and lets the user accept, edit, or add. The skill never blindly accepts what the user provides if it conflicts with these patterns — see `pushback-rules.md` for what to reject and how.
 
@@ -481,7 +481,7 @@ A/B tests are an optimisation tool, not an innovation tool. They tell you which 
 ## Notes for future iteration
 
 - Add patterns for paid/monetisation tactics when relevant.
-- Add patterns for B2B/enterprise products if the team scope expands.
+- Add patterns for B2B/enterprise products.
 - Add patterns for e-commerce, marketplace, and platform products.
 - Consider adding a section on cohort segmentation methods.
 - Build a library of real completed-experiment cases as the skill is used.

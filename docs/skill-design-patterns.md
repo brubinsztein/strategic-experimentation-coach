@@ -188,7 +188,7 @@ Reject criteria are codified in `pushback-rules.md`. More rigorous than any exis
 
 ## 3.3 Domain-tuned pattern library
 
-The pattern library is tuned to engagement, retention, and content products — our team's domain. Trade-off: less useful for B2B SaaS, marketplaces, etc. Acceptable for v0.1; expand later.
+The pattern library is tuned to engagement, retention, and content products. Trade-off: less useful for B2B SaaS, marketplaces, etc. Acceptable for v0.1; expand later.
 
 ## 3.4 Heavier on suggesting than eliciting
 
