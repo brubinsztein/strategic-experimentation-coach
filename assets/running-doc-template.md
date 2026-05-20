@@ -10,7 +10,7 @@ _Status: in progress_
 
 ## Cohort / segment
 
-_Who this work is for. Engagement temperature if relevant (hot / warm / cool / cold)._
+_Who this work is for. Any cohort segmentation framework relevant to this work (engagement state, lifecycle stage, plan tier, etc.)._
 
 ## Strategic hypotheses
 

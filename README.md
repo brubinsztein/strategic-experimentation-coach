@@ -73,7 +73,7 @@ Or invoke it directly:
 
 `SKILL.md` orchestrates the eight phases and the conversation contract. The two files in `references/` are loaded on demand: `pattern-library.md` for the framework and domain patterns the skill proposes, and `pushback-rules.md` for the reject criteria at each phase. The running docs are plain markdown the user can edit between sessions, so the skill re-reads them at the start of each phase rather than relying on conversation memory.
 
-If the optional `ask_user_input_v0` tool is available in your harness, the skill uses it for ranking and multiple-choice steps. If not, it falls back to numbered options in prose.
+The skill uses Claude Code's built-in `AskUserQuestion` tool for every choice, confirmation, and rating step, so the conversation moves through structured prompts rather than long prose dumps. The tool caps options at four per question; the skill is written around that constraint.
 
 ## Frameworks this synthesises
 

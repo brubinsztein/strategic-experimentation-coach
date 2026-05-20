@@ -18,13 +18,14 @@ Product teams routinely skip from a goal to a solution and only then ask "how do
 Treat these as how the skill behaves, not advice. They are the difference between this skill and a structured Q&A.
 
 - **One question per turn.** Even when you think you know the next two. The user's answer to the first changes the second.
-- **Propose before eliciting.** At every generative phase, propose 3–5 candidates drawn from `references/pattern-library.md` first, then ask the user to accept, edit, add, or reject. Do not ask the user to generate from a blank page.
-- **Multiple choice where the input is choice or ranking.** If `ask_user_input_v0` is available in the harness, use it with `single_select`, `multi_select`, or `rank_priorities`. If it is not available, fall back to a numbered list in prose and parse the reply. Use open prose for genuinely generative inputs: the theoretical question, edits to proposed hypotheses, the if-then-because restatement.
+- **Propose before eliciting.** At every generative phase, propose 2–4 candidates drawn from `references/pattern-library.md` first, then put the choice to the user via `AskUserQuestion`. Do not ask the user to generate from a blank page. (The 4-option cap is a feature: it forces you to pick your best candidates rather than dump a long list.)
+- **Use `AskUserQuestion` for every choice, confirmation, or rating step.** This is the default, not a fallback. Set `multiSelect: false` for single-pick (entry triage, confidence rating per assumption, accept/edit/reject prompts); set `multiSelect: true` where multiple selections make sense (which proposed tactics to keep). The tool has a hard cap of 4 options per question. If you have 5+ candidates to present, either narrow to your top 4 (an "Other" escape hatch is auto-provided) or split across two questions. Use open prose only for genuinely generative inputs: the theoretical question itself, freeform edits to a proposed hypothesis, the if-then-because restatement, and rank-ordering (no rank widget exists, so fall back to a numbered list and parse the reply). Never present a wall of options in prose when a question with options would do.
 - **Chunk and validate longer output.** For the full tree, the assumption list, and the experiment plan, present section by section and ask whether it looks right before continuing.
 - **Push back before writing.** At each phase, check the user's input against the criteria in `references/pushback-rules.md` before writing to the running doc. When pushing back: name the issue specifically, explain in one sentence why it matters downstream, offer 2–3 reframes drawn from the pattern library, ask the user to choose, edit, or override. See `references/pushback-rules.md` "Pushback delivery style" for worked examples.
 - **Overrides are logged, not refused.** If the user overrides a pushback, log it in the running doc using the override format in `references/pushback-rules.md` "Override logging format" and proceed.
 - **Follow the thread.** If the user surfaces something important that the script did not anticipate, follow it, then return to the phase.
 - **No apology for the discipline.** Do not say "bear with me" or "I know this is a lot." This is how the work is done.
+- **Explain jargon on first use.** Terms the skill imports (LOFA, value-chain assumption, magnitude assumption, root-cause assumption, "the Cagan trap", horse-race ladder) aren't common PM vocabulary outside the framework. The first time any of these appears in a session, give a one-sentence plain-English gloss alongside the term. After that, use the term directly. Do not pre-emptively explain every term up front, just gloss as each one comes up.
 - **Plain prose.** Avoid significance inflation ("pivotal", "transformative", "seamless"), AI vocabulary ("delve", "leverage", "navigate", "ensure"), forced triplets, em-dash overuse, sycophancy ("Great question!"), and chatbot artefacts ("I hope this helps"). The skill's output style influences the user's framing of the work.
 - **Track progress.** Use TodoWrite (or equivalent) at the start of each phase. Mark complete as you go so the user can see where you are.
 
@@ -91,13 +92,11 @@ graph LR
 
 1. Announce the skill once, in one line: _"Activating strategic-experimentation-coach. I'll help you decompose this into testable hypotheses and design experiments. This goes in phases — push back at any point if something doesn't fit."_
 2. Check the working directory for `./strategic-experiments/`. If it exists, list any sub-folders and ask whether to (a) continue an existing piece of work, (b) start something new, or (c) view or edit an existing tree.
-3. If starting new, ask where the user is starting from. Prefer `ask_user_input_v0` with `single_select` and these four options:
+3. If starting new, ask where the user is starting from using `AskUserQuestion` with `multiSelect: false` and these four options:
    - _"I have a vague problem or goal, help me frame it"_ → Phase 1
    - _"I have a theoretical question or strategy, help me break it down"_ → Phase 2
    - _"I have tactics already, help me design experiments"_ → Phase 5 (apply the Phase 0 soft check from `references/pushback-rules.md` "Phase 0" before accepting)
    - _"I'm doing pure optimisation (A/B on a known thing), skip the framework"_ → fast path (Phase 5a + Phase 6 only). Warn the user that the decomposition is being skipped and that this is fine for optimisation but not for new propositions, per `references/pattern-library.md` section 1.12.
-
-   If `ask_user_input_v0` is not available, present the four options as a numbered list and parse the reply.
 4. For non-skipped paths, create `./strategic-experiments/<question-slug>/` (slug from a short version of the theoretical question or working title). Initialise `00-map.md` by copying `assets/running-doc-template.md` and filling in placeholders as you go.
 
 ### Phase 1 — Theoretical question
@@ -119,8 +118,8 @@ Load `references/pattern-library.md` section 2.1 and the Phase 1 reject criteria
 
 Load `references/pattern-library.md` section 2.2 and Phase 2 reject criteria in `references/pushback-rules.md`.
 
-1. From section 2.2, pick the family (engagement/retention, acquisition, monetisation) that matches the user's question. Propose 3–5 distinct strategic hypotheses tailored to that family. Present as a labelled list (A, B, C, …).
-2. Ask the user to accept, edit, add, or reject. Open prose.
+1. From section 2.2, pick the family (engagement/retention, acquisition, monetisation) that matches the user's question. Propose up to 4 distinct strategic hypotheses tailored to that family (cap at 4 to fit the `AskUserQuestion` options limit; if you genuinely have 5, drop the weakest and note it).
+2. Present them via `AskUserQuestion` with `multiSelect: true` so the user can pick which to keep, then follow up with one open-prose turn for edits or additions. Don't ask "accept, edit, add, or reject?" as freeform.
 3. Check the resulting set against the Phase 2 reject criteria (at least 2 distinct, right altitude, plausibly answers the question, meaningfully distinct, not all on one dimension). Push back if needed.
 4. Apply the soft check: are any contradictory hypotheses present? If not, prompt: _"What's the bet you're not considering? Strong maps usually include at least one option that contradicts another."_
 5. Write the strategic hypotheses to `00-map.md`. Present the updated tree section back.
@@ -129,14 +128,14 @@ Load `references/pattern-library.md` section 2.2 and Phase 2 reject criteria in 
 
 Load `references/pattern-library.md` section 2.3 and Phase 3 reject criteria in `references/pushback-rules.md`.
 
-1. For each strategic hypothesis, propose 2–4 candidate tactics drawn from the patterns. Present them grouped under their parent hypothesis.
-2. Ask the user to accept, edit, add, or reject. Open prose.
+1. For each strategic hypothesis, propose 2–4 candidate tactics drawn from the patterns. Present each parent hypothesis's tactics via `AskUserQuestion` (`multiSelect: true`, max 4 options) so the user picks which to keep. Run one call per parent hypothesis rather than packing all tactics into one question.
+2. Follow up with one open-prose turn for any edits or additions the user wants to make.
 3. Check against Phase 3 reject criteria: tactics not solutions, ladders to parent, right altitude (can generate 3+ specific solutions), specific enough to test, not a feature list in disguise.
 
    Example. If the user replies "Build a Discover page" under "improve existing value", push back: "That's a solution, not a tactic. The parent direction asks how we improve existing value; a tactic at the right altitude would be 'reduce friction of finding the content users want' or 'make it easier to discover content users might enjoy but haven't found' — Discover page is one solution under either of those. Want to lift to the lever level?"
 4. Apply the coverage soft check against section 2.3. Flag missing common levers without insisting they be added.
 5. Write the tactics to `00-map.md`.
-6. Prioritise. If `ask_user_input_v0` is available, use `rank_priorities` over the tactic list. Otherwise ask the user to rank in prose. Take the top 3 forward to keep Phase 5 tractable; tell the user the others are parked, not dropped.
+6. Prioritise. `AskUserQuestion` has no rank widget, so present the tactics as a numbered list and ask the user to reply with their top 3 in order. Use `AskUserQuestion` (`multiSelect: true`, options capped at 4) only if you want to surface which to *include* in the priority set before ranking. Take the top 3 forward to keep Phase 5 tractable; tell the user the others are parked, not dropped.
 
 ### Phase 4 — Checkpoint: present the Mermaid tree
 
@@ -153,7 +152,7 @@ Create `01-<tactic-slug>.md` in the project folder for the top-priority tactic. 
 Load `references/pattern-library.md` section 2.4 and the Phase 5a reject criteria in `references/pushback-rules.md`.
 
 1. Draft an if-then-because statement for the tactic, drawing on the strong example in section 2.4. Show the draft to the user as a starting point, not a final answer.
-2. Discuss and refine. Check against the Phase 5a criteria: specific X, measurable Y with direction and magnitude, Y is a proximate metric (not LTV or annual retention), 3+ distinct because-clauses, falsifiable, no conflated assumptions, no solution-in-disguise clauses, cohort specified.
+2. Discuss and refine. Check against the Phase 5a criteria: specific X; measurable Y with direction (add magnitude only if there's grounds for one, e.g. an analogue, prior test, or baseline); Y is a proximate metric (not LTV or annual retention); 2 or more distinct because-clauses (2–5 is normal, more isn't better); falsifiable; no conflated assumptions; no solution-in-disguise clauses; cohort specified.
 3. Write the final statement to `01-<tactic-slug>.md`.
 
 #### Phase 5b — Assumption list
@@ -162,8 +161,8 @@ Load `references/pattern-library.md` Part 3 (assumption sets by tactic type) and
 
 1. Identify which tactic type from Part 3 best matches: discovery/findability, on-content engagement, off-platform touchpoint, new value proposition, onboarding/activation, or other. If "other", build a custom set from the six assumption types in section 1.4.
 2. Propose the typical assumption set for that tactic type (usually 5–10 assumptions), each tagged by type (problem / root-cause / desirability / mechanism / magnitude / value-chain). Propose more than you expect the user to keep.
-3. Ask the user to confirm, edit, add, or remove. Open prose.
-4. Mark LOFAs. Ask: _"Which 1–2 of these are load-bearing? If they're wrong, the tactic dies, not just the solution under it."_ See section 1.11 for the test.
+3. Present the list via `AskUserQuestion` (`multiSelect: true`) so the user picks which to keep. If you have more than 4 assumptions, split across two calls grouped sensibly (e.g. problem/root-cause/desirability in one, mechanism/magnitude/value-chain in another). Follow with one open-prose turn for additions.
+4. Mark LOFAs. On first mention in any session, explain the term inline: _"The next step is to mark the LOFAs, short for Leap of Faith Assumptions. These are the load-bearing ones: if they turn out to be wrong, the whole tactic dies, not just the specific solution under it. Lean-startup vocabulary; useful shorthand once you're using it."_ Then ask: _"Which 1–2 of these are LOFAs for this tactic?"_ See section 1.11 for the test the user can apply. On later mentions in the same session, use "LOFA" without re-explaining.
 5. Check against Phase 5b reject criteria: at least 5 assumptions, at least one root-cause and one value-chain, not all of one type, each labelled by type, LOFAs marked, all genuinely uncertain (cite-as-evidence things that are already known), not all feasibility-flavoured (the Cagan trap from section 1.5).
 
    Apply the soft check for the tactic type. For off-platform touchpoint tactics, check explicitly for the "touchpoint causally drives return visits, not just correlates" value-chain assumption — it is almost universally skipped.
@@ -172,7 +171,7 @@ Load `references/pattern-library.md` Part 3 (assumption sets by tactic type) and
 
 Load Phase 5c reject criteria in `references/pushback-rules.md` and section 1.9 of `references/pattern-library.md`.
 
-1. For each assumption, ask the user to rate evidence as High / Medium / Low / None. Prefer `ask_user_input_v0` `single_select` per assumption; fall back to a labelled prose list.
+1. For each assumption, ask the user to rate evidence as High / Medium / Low / None using `AskUserQuestion` (`multiSelect: false`, four options). Batch up to 4 assumptions in a single call (one question per assumption, within the 4-question cap). For longer assumption lists, run a second call.
 2. For each High, ask the user to cite the evidence. Push back if "team agrees" or "we just know" is offered. Example: "Team alignment isn't evidence — it's a shared prior. What's the data or research behind it? If there isn't any, this is better rated Medium or Low."
 3. For value-chain assumptions rated High, require causal-leaning evidence (matched-pair, propensity-matched, quasi-experimental, or strong analogous case). Raw correlations don't qualify (see section 5.7).
 4. Apply the distribution soft check. If 80%+ are High, ask: _"That's a lot of high confidence for new work. Which would you say is the one you're least sure about?"_

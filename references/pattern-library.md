@@ -1,13 +1,14 @@
 # Strategic Experimentation: Pattern Library
 
-**Version:** 0.2
+**Version:** 0.3
 **Status:** Reference. Expected to evolve as the skill is used.
 **Purpose:** Reference material for the `strategic-experimentation-coach` skill. The skill draws from this document to (a) recognise good vs. weak inputs from the user, (b) propose options when the user is stuck, and (c) match experiments to the assumptions being tested.
 
 ## Changelog
 
-- **v0.2** — Rebalanced Part 4 worked examples to draw from varied domains. Made Part 3 caveat its engagement/retention focus more explicitly. Light edits for plain-prose style.
-- **v0.1** — Initial draft synthesised from Cagan, Torres, Bland, Gilad, and Longden/Speero frameworks.
+- **v0.3**: Replaced retail example in §4.1 with fitness-app activation. Swapped §4.2 from content to SaaS. Removed engagement temperature model (§4.4). Rebalanced §1.1, §1.4, §2.3 examples across domains. Loosened §2.4 magnitude and because-clause rules. Removed em dashes throughout.
+- **v0.2**: Rebalanced Part 4 worked examples to draw from varied domains. Made Part 3 caveat its engagement/retention focus more explicitly. Light edits for plain-prose style.
+- **v0.1**: Initial draft synthesised from Cagan, Torres, Bland, Gilad, and Longden/Speero frameworks.
 
 ---
 
@@ -18,13 +19,13 @@ Two layers:
 - **General framework layer** (Parts 1–2): the hierarchy, assumption types, experiment ladder, hypothesis formulation. Applies to any product question.
 - **Domain layer** (Parts 3–5): patterns tuned to engagement, retention, and content products. Most calls in that domain will land here. Other domains will need their own pattern sets added over time.
 
-When the skill suggests options to the user (e.g. "what strategic hypotheses might answer this?"), it pulls candidates from the relevant patterns, proposes them, and lets the user accept, edit, or add. The skill never blindly accepts what the user provides if it conflicts with these patterns — see `pushback-rules.md` for what to reject and how.
+When the skill suggests options to the user (e.g. "what strategic hypotheses might answer this?"), it pulls candidates from the relevant patterns, proposes them, and lets the user accept, edit, or add. The skill never blindly accepts what the user provides if it conflicts with these patterns. See `pushback-rules.md` for what to reject and how.
 
 ## Provenance
 
 This synthesises several established frameworks. The skill treats them as one integrated approach, naming the lineage only when it adds clarity:
 
-- **Marty Cagan / SVPG (INSPIRED):** the four big product risks — value, usability, feasibility, viability.
+- **Marty Cagan / SVPG (INSPIRED):** the four big product risks: value, usability, feasibility, viability.
 - **Teresa Torres (Continuous Discovery Habits):** opportunity solution trees, assumption mapping, "test assumptions, not ideas."
 - **David Bland & Alex Osterwalder (Testing Business Ideas):** the experiment library, importance × evidence prioritisation.
 - **Itamar Gilad (Evidence Guided / GIST):** the confidence meter, ICE, progressive validation.
@@ -53,17 +54,17 @@ Experiment             ← How will we test the assumptions?
 
 ### Definitions and examples
 
-| Level | Definition | Example (retail marketing) |
+| Level | Definition | Example (meal-kit subscription) |
 |---|---|---|
-| Theoretical question | A broad outcome-focused question. Open enough to admit multiple directions; narrow enough to be tractable. | *"How can we resonate with a younger audience?"* |
-| Strategic hypothesis | A bet on **where** the answer lives — a direction of effort. | *"By changing our product portfolio."* |
-| Functional hypothesis (tactic) | A bet on **how** to pull a lever in that direction. Not a feature. | *"By merchandising different products in marketing."* |
-| Solution | A specific thing to build/test. | *"Redesign category pages around a younger product mix."* |
-| Experiment | A test of the assumptions behind the solution. | *"Web category page A/B test on 10% of sessions for 4 weeks; success = +15% engagement among under-35 cohort."* |
+| Theoretical question | A broad outcome-focused question. Open enough to admit multiple directions; narrow enough to be tractable. | *"How can we lift weekly order rate among light-engagement subscribers?"* |
+| Strategic hypothesis | A bet on **where** the answer lives, a direction of effort. | *"By making weekly meal selection feel less effortful."* |
+| Functional hypothesis (tactic) | A bet on **how** to pull a lever in that direction. Not a feature. | *"By cutting the cognitive load of the weekly shortlist."* |
+| Solution | A specific thing to build/test. | *"Auto-prepopulate the shortlist from the last three orders, with one-tap edits."* |
+| Experiment | A test of the assumptions behind the solution. | *"A/B test on the weekly menu page for subscribers in weeks 4–12; success = +12% week-on-week order completion over 6 weeks."* |
 
 ## 1.2 The theory ↔ observation cycle
 
-The hierarchy is presented linearly but operates as a loop. Theory generates strategic and functional hypotheses; experiments produce observations; observations refine the theory. The skill should treat the running map as a living document — when an experiment invalidates an assumption, the relevant branch of the tree changes.
+The hierarchy is presented linearly but operates as a loop. Theory generates strategic and functional hypotheses; experiments produce observations; observations refine the theory. The skill should treat the running map as a living document. When an experiment invalidates an assumption, the relevant branch of the tree changes.
 
 ```
    Growth theories  ⇄  Observed behaviour
@@ -83,12 +84,12 @@ Every tactic rests on a set of assumptions. The skill helps users surface them, 
 
 | Type | Question it asks | Example | Common failure mode |
 |---|---|---|---|
-| **Problem** | Is the thing we think is broken actually broken? | The cohort genuinely fails to find content they'd engage with. | Assumed without checking existing data. |
-| **Root cause** | Is our explanation of why it's broken correct? | The failure is caused by discovery friction, not by lack of interest or time. | Most commonly skipped. Load-bearing — if wrong, nothing built on it works. |
-| **Desirability** | Do users want what we're proposing? | The cohort will engage with better-surfaced content if shown. | Often confused with usability. |
-| **Mechanism** | Will the specific change produce the response we expect? | A new discovery surface is materially better than what exists today. | Skipped because "obvious." |
-| **Magnitude** | Will the effect be big enough to matter at scale? | The cohort-level effect is large enough to be worth shipping. | The "won the A/B test, lost in production" failure. |
-| **Value chain** | Does the proximate metric we move actually move the business metric we care about? | Increased on-site discovery → increased depth → increased retention. | Almost never tested. |
+| **Problem** | Is the thing we think is broken actually broken? | A cohort of newly signed-up shoppers abandons carts at the payment step. | Assumed without checking existing data. |
+| **Root cause** | Is our explanation of why it's broken correct? | Mid-cycle forgetfulness, not lack of intent, drives missed savings goals in a budgeting app. | Most commonly skipped. Load-bearing: if wrong, nothing built on it works. |
+| **Desirability** | Do users want what we're proposing? | Subscribers will engage with a prepopulated shortlist if shown by default. | Often confused with usability. |
+| **Mechanism** | Will the specific change produce the response we expect? | A relocated tooltip materially reduces drop-off at step 3 of onboarding. | Skipped because "obvious." |
+| **Magnitude** | Will the effect be big enough to matter at scale? | A 2-point lift in a small-segment test will hold at full scale. | The "won the A/B test, lost in production" failure. |
+| **Value chain** | Does the proximate metric we move actually move the business metric we care about? | Newsletter opens causally drive return visits, not just correlate with them. | Almost never tested. |
 
 Order them in this sequence when designing experiments: cheapest and most upstream first. Killing a tactic via a problem-assumption check costs hours; killing it via a magnitude test costs weeks.
 
@@ -100,17 +101,17 @@ The skill uses the six-type framing because it's more granular at the tactic lev
 |---|---|
 | **Value risk** (will customers buy/use it?) | Problem, Desirability, Magnitude |
 | **Usability risk** (can they figure it out?) | Mechanism (when "mechanism" includes UX) |
-| **Feasibility risk** (can we build it?) | Not directly covered — out of scope at tactic level; addressed at solution level |
+| **Feasibility risk** (can we build it?) | Not directly covered, out of scope at tactic level; addressed at solution level |
 | **Business viability risk** (does it work for the business?) | Value chain, Magnitude |
 
 **The Cagan pattern**: teams systematically over-index on feasibility (the comfortable, engineer-friendly one) and under-index on value and viability. The skill should flag if a user's assumption list is all feasibility-flavoured.
 
 Beyond Cagan's four, the skill should also surface other risk categories from systems-level thinking (Longden):
 
-- **Technical risk** — will this break something else?
-- **Operational risk** — how does this impact workflows or other teams?
-- **Customer risk** — could this degrade the overall experience?
-- **Brand risk** — does it conflict with positioning?
+- **Technical risk**: will this break something else?
+- **Operational risk**: how does this impact workflows or other teams?
+- **Customer risk**: could this degrade the overall experience?
+- **Brand risk**: does it conflict with positioning?
 
 ## 1.6 The horse-race experiment ladder
 
@@ -122,7 +123,7 @@ Ideas → Analysis → POC → Test Flight → Iterative Development → Full Fe
  low confidence                                              high confidence
 ```
 
-The shape of the funnel matters: most ideas should die early. If everything makes it to "Full Feature," the team isn't horse-racing — they're rubber-stamping.
+The shape of the funnel matters: most ideas should die early. If everything makes it to "Full Feature," the team isn't horse-racing, they're rubber-stamping.
 
 **Key principle (Longden):** the fidelity and rigor of an experiment must match the cost and irreversibility of the potential failure. A button colour test? Low fidelity is fine. Killing a free tier? Test-flight-level rigor before going live.
 
@@ -132,14 +133,14 @@ Methods organised by validation category × fidelity (adapted from Speero):
 
 | Category | Low fidelity (cheap learning) | Mid fidelity | High fidelity (real-world) |
 |---|---|---|---|
-| **Problem & discovery** | User interviews, surveys, analytics audits | Ethnographic studies, journey mapping | — |
-| **Concept & value prop** | Concept tests (discussion), ad creative tests, value-prop surveys | Landing page tests ("painted door"), clickable mockups | — |
+| **Problem & discovery** | User interviews, surveys, analytics audits | Ethnographic studies, journey mapping | n/a |
+| **Concept & value prop** | Concept tests (discussion), ad creative tests, value-prop surveys | Landing page tests ("painted door"), clickable mockups | n/a |
 | **Solution & experience** | Wireframe reviews, paper prototyping | Interactive prototype tests, remote usability tests | In-person usability tests, beta program |
 | **Feasibility & operational** | Internal estimates, technical spikes | Internal simulations, technical prototypes | Operational pilots, data integration tests |
 | **Market & business model** | Acquisition channel tests (small), pricing concept surveys | Beta launches, phased rollouts (small segment), simulated pricing | Pilot programs, larger phased rollouts, live pricing tests |
 | **Optimisation & refinement** | Usability audits, analytics review | Session recording analysis, user feedback tools | A/B tests, multivariate, personalisation, funnel analysis |
 
-A/B tests sit at the bottom right — they're the most expensive and slowest-to-learn-from option. Use them when cheaper methods can't answer the question, not as the default.
+A/B tests sit at the bottom right: they're the most expensive and slowest-to-learn-from option. Use them when cheaper methods can't answer the question, not as the default.
 
 ## 1.8 Matching experiments to assumption types
 
@@ -156,10 +157,10 @@ A/B tests sit at the bottom right — they're the most expensive and slowest-to-
 
 Borrowed from Gilad's Confidence Meter. For each assumption, label the evidence level:
 
-- **High** — multiple independent sources of evidence (data + research + analogous case)
-- **Medium** — directional evidence from one or two sources, or strong analogous evidence
-- **Low** — opinion, intuition, or single anecdote
-- **None** — never examined
+- **High**: multiple independent sources of evidence (data + research + analogous case)
+- **Medium**: directional evidence from one or two sources, or strong analogous evidence
+- **Low**: opinion, intuition, or single anecdote
+- **None**: never examined
 
 The targets for testing are the **low-confidence and high-importance** assumptions. High-confidence ones can usually be left alone; low-importance ones aren't worth the test even if uncertain.
 
@@ -169,9 +170,9 @@ A critical Longden point: an experiment produces evidence, not a verdict. The te
 
 This matters because it means experiment output should be framed as input to a decision, not "the test won, ship it." The skill's experiment-design phase should always include a "decision criteria" section: *if X happens, we will Y; if Z happens, we will W*.
 
-## 1.11 LOFAs — Leap of Faith Assumptions
+## 1.11 LOFAs: Leap of Faith Assumptions
 
-Within an assumption list, some assumptions are "load-bearing" — if they're wrong, the entire tactic collapses. Borrowed from lean-startup vocabulary as **Leap of Faith Assumptions** (LOFAs). The skill should explicitly identify which assumptions are LOFAs and ensure those get the most rigorous testing earliest.
+Within an assumption list, some assumptions are "load-bearing": if they're wrong, the entire tactic collapses. Borrowed from lean-startup vocabulary as **Leap of Faith Assumptions** (LOFAs). The skill should explicitly identify which assumptions are LOFAs and ensure those get the most rigorous testing earliest.
 
 A useful test: *"If I learned tomorrow that this assumption was wrong, would I kill this tactic, or would I just adjust the solution?"* If the answer is "kill the tactic," it's a LOFA.
 
@@ -179,10 +180,10 @@ A useful test: *"If I learned tomorrow that this assumption was wrong, would I k
 
 Two distinct modes (Longden):
 
-- **Optimisation** — incremental improvement within a known framework. A/B tests on button colour, copy variants, layout tweaks. Cheap, fast, low strategic stakes.
-- **Growth experiments** — validating significant, high-uncertainty strategic hypotheses. Should something new exist? Will this new proposition land? Should we change our business model?
+- **Optimisation**: incremental improvement within a known framework. A/B tests on button colour, copy variants, layout tweaks. Cheap, fast, low strategic stakes.
+- **Growth experiments**: validating significant, high-uncertainty strategic hypotheses. Should something new exist? Will this new proposition land? Should we change our business model?
 
-This skill operates in the **growth experiment** mode. Optimisation work doesn't need the full theoretical-question → strategic-hypothesis decomposition — it can go straight to test design. The skill asks early which mode the user is in, and if it's pure optimisation, suggests skipping straight to Phase 5 (experiment design).
+This skill operates in the **growth experiment** mode. Optimisation work doesn't need the full theoretical-question → strategic-hypothesis decomposition; it can go straight to test design. The skill asks early which mode the user is in, and if it's pure optimisation, suggests skipping straight to Phase 5 (experiment design).
 
 ---
 
@@ -191,10 +192,10 @@ This skill operates in the **growth experiment** mode. Optimisation work doesn't
 ## 2.1 Theoretical question patterns
 
 ### Good shapes
-- *"How can we [outcome] for [segment]?"* — most flexible.
-- *"Why do [users] [behaviour]?"* — opens root-cause exploration.
-- *"What's stopping [segment] from [behaviour]?"* — generative.
-- *"How do we move [metric] from [X] to [Y] by [timeframe]?"* — when the metric is genuinely the goal, with quantification.
+- *"How can we [outcome] for [segment]?"*: most flexible.
+- *"Why do [users] [behaviour]?"*: opens root-cause exploration.
+- *"What's stopping [segment] from [behaviour]?"*: generative.
+- *"How do we move [metric] from [X] to [Y] by [timeframe]?"*: when the metric is genuinely the goal, with quantification.
 
 ### Anti-patterns
 
@@ -211,13 +212,14 @@ This skill operates in the **growth experiment** mode. Optimisation work doesn't
 
 Strategic hypotheses are bets on the **direction** of the answer. They should be distinct, not just rewordings of each other, and there should usually be 2–4. Common high-level shapes:
 
-For **engagement / retention** questions:
+For **engagement** questions:
 - Improve existing value (deepen what we have)
 - Build new value (add new propositions)
-- Change who we target
-- Change how we reach them
-- Change when we reach them
+- Change the trigger to act
+- Change the default state
 - Reduce friction in what already exists
+
+Retention questions overlap but usually pull harder on value-delivery and habit-formation levers.
 
 For **acquisition** questions:
 - New channels
@@ -237,18 +239,18 @@ The skill should propose 3–5 strategic hypotheses appropriate to the question 
 
 ## 2.3 Functional hypothesis (tactic) patterns
 
-Functional hypotheses are levers within a strategic direction. They should be at a "verb-phrase" altitude — describing the lever, not the implementation. The test of altitude: *can you generate 3+ specific solutions from this tactic?* If not, it's probably a solution disguised as a tactic.
+Functional hypotheses are levers within a strategic direction. They should be at a "verb-phrase" altitude, describing the lever, not the implementation. The test of altitude: *can you generate 3+ specific solutions from this tactic?* If not, it's probably a solution disguised as a tactic.
 
-Examples of good tactics under "improve existing value" for an engagement question:
-- *Reduce friction of finding the content users specifically want*
-- *Make existing core touchpoints (home, index, article) more engaging*
-- *Increase awareness of value propositions users don't currently use*
-- *Make it easier to discover content users might enjoy but haven't found*
+Examples of good tactics:
+- *Reduce the cognitive load of recurring weekly choices* (meal-kit)
+- *Make it easier to discover content users might enjoy but haven't found* (content)
+- *Make first-session value visible before requiring sign-up* (SaaS)
+- *Shorten the path from intent to first transaction* (marketplace)
 
 Examples of things that look like tactics but are actually solutions:
-- *Build a Discover page* (solution — many possible tactics could lead here)
+- *Build a Discover page* (solution)
 - *Add a TL;DR box* (solution)
-- *Personalise the homepage* (closer to a tactic, but still implementation-flavoured)
+- *Auto-prepopulate the weekly shortlist* (solution under a meal-kit tactic)
 
 ## 2.4 The if-then-because hypothesis statement
 
@@ -263,9 +265,9 @@ Variants:
 ### Requirements for a good hypothesis statement
 
 - **Specific X**: not "improve onboarding" but "personalise the first-session homepage based on declared interests"
-- **Measurable Y**: a metric with a direction, ideally with a threshold or order of magnitude
+- **Measurable Y**: a metric with a direction. Add a threshold or order of magnitude if you have grounds for one (analogue, prior test, baseline). An honest 'TBD pending baseline' beats a fabricated range.
 - **Falsifiable**: there must be an observation that would prove it wrong
-- **Multiple, distinct because-clauses**: one clause = one assumption = one possible thing to test
+- **Distinct because-clauses, usually 2–5. The reject is on conflation (one clause = one assumption), not on count.**
 - **No conflated assumptions**: "users want this and will use it weekly" is two assumptions
 
 ### Examples
@@ -276,23 +278,25 @@ Variants:
 Problems: vague X, vague Y, single conflated because-clause, no segment specified, no measurable signal.
 
 **Strong:**
-> *If we add a personalised Discover surface to the homepage for cool subscribers, then weekly engagement depth (articles read per session) will increase by 10–15% within that cohort over 4 weeks, because (a) cool subscribers currently fail to find content matching their interests, (b) that failure is caused by lack of personalisation rather than catalogue gaps, (c) when shown personalised content, cool subscribers engage with it at rates similar to warm subscribers, and (d) the lift in articles-per-session correlates with our retention metric.*
+> *"If we auto-prepopulate the weekly shortlist from the last three orders for light-engagement subscribers, then weekly order completion will rise 10–15% in that cohort over 6 weeks, because (a) skipped weeks correlate with shortlist-abandonment events not catalogue dissatisfaction, (b) the abandonment clusters at the shortlist step in session recordings, and (c) prepopulated shortlists in concierge tests produced order rates close to fully-engaged subscribers."*
 
-Each clause is now a separately testable assumption.
+Each clause is a separately testable assumption.
 
 ---
 
 # Part 3: Common assumption sets by tactic type
 
-These are starter sets for common tactic categories. They lean toward engagement/retention product work — other domains will need their own pattern sets added over time. The skill proposes these as candidates; the user edits.
+These are starter sets for common tactic categories. They lean toward engagement/retention product work; other domains will need their own pattern sets added over time. The skill proposes these as candidates; the user edits.
 
 ## 3.1 Discovery / findability tactics
 
 Examples: Discover page, homepage personalisation, search improvements, content recommendations, cross-product discovery.
 
+Applies to any catalogue product where users need to find something specific: content, products, listings, courses.
+
 **Typical assumption set:**
-1. *(Problem)* The cohort genuinely fails to find content they'd engage with — observable in their current behaviour, not just inferred.
-2. *(Root cause — usually the LOFA)* The failure is due to discovery friction, not lack of time, lack of interest, or content-catalogue gaps.
+1. *(Problem)* The cohort genuinely fails to find content they'd engage with, observable in their current behaviour, not just inferred.
+2. *(Root cause, usually the LOFA)* The failure is due to discovery friction, not lack of time, lack of interest, or content-catalogue gaps.
 3. *(Desirability)* Better-surfaced content would actually be consumed, not just seen.
 4. *(Mechanism)* The proposed discovery surface is meaningfully better than what exists today.
 5. *(Magnitude)* The lift is large enough to matter at cohort level, not just per-session.
@@ -304,6 +308,8 @@ Examples: Discover page, homepage personalisation, search improvements, content 
 
 Examples: adaptive article layouts, new storytelling formats, TL;DR boxes, audio versions, in-article features.
 
+Scopes specifically to the in-session experience once the user has arrived at the thing.
+
 **Typical assumption set:**
 1. *(Problem)* The cohort is arriving at content but disengaging before getting value.
 2. *(Root cause)* The on-page experience is what's causing disengagement (not headline mismatch, not device context, not topic disinterest).
@@ -314,12 +320,12 @@ Examples: adaptive article layouts, new storytelling formats, TL;DR boxes, audio
 
 **Common skipped assumption:** #2. Teams design article-level interventions when the disengagement happens at headline-click or context-mismatch level.
 
-## 3.3 Off-platform touchpoint tactics
+## 3.3 Off-platform return-mechanism tactics
 
-Examples: newsletter sign-ups, push notifications, podcast promotion, social presence.
+Examples: newsletter sign-ups, push notifications, re-engagement email in SaaS, transactional comms in commerce, podcast or social presence.
 
 **Typical assumption set:**
-1. *(Value chain — usually the LOFA)* The touchpoint causally drives return visits, not just correlates with them. Selection bias is huge here.
+1. *(Value chain, usually the LOFA)* The touchpoint causally drives return visits, not just correlates with them. Selection bias is huge here.
 2. *(Problem)* The cohort isn't sufficiently exposed to or signed up for the touchpoint.
 3. *(Desirability)* The cohort will sign up when given better placement/defaults.
 4. *(Desirability)* Once signed up, the cohort will actually engage with the touchpoint (open rate × CTR).
@@ -362,81 +368,64 @@ Examples: improved onboarding flow, tooltips, declaring preferences, first-sessi
 
 These show the framework in action across different domains. The point of having more than one is to show that the same hierarchy applies whether the question is about retail marketing, content engagement, or something else.
 
-## 4.1 Worked example: Resonating with a younger audience (retail / marketing)
+## 4.1 Worked example: Activating new sign-ups in a fitness app
 
-This example is drawn from Speero's framework material. The team is a retailer wanting to expand their audience to younger customers.
+The team wants more new sign-ups to complete their first workout in week one.
 
-**Theoretical question:** *How can we resonate with a younger audience?*
+**Theoretical question:** *How can we get more new sign-ups to complete their first workout in week one?*
 
-**Strategic hypothesis A:** *By changing our product portfolio*
-- *By merchandising different products in marketing* — tactic
-- *By cutting out certain product ranges from the portfolio* — tactic
+**Strategic hypothesis A:** *By reducing the effort to start the first workout.*
+- *Shorten the in-app warm-up*
+- *Pre-select a starter programme based on sign-up answers*
+- *Surface a 10-minute "any day" option as the default*
 
-**Strategic hypothesis B:** *By targeting a younger audience in media*
-- *By restricting advertising to channels where audiences can be targeted* — tactic
-- *By modifying messaging/tone in creative* — tactic
+**Strategic hypothesis B:** *By raising motivation in the first 72 hours.*
+- *Send a single nudge timed to the user's declared weekday slot*
+- *Pair new users with a human coach for one check-in*
+- *Show a peer-group progress view*
 
-The two strategic hypotheses sit at the same altitude but address different levers (what we sell vs how we communicate). Tactics under each describe how to pull a lever in that direction, not specific implementations.
+**Strategic hypothesis C:** *By making the first workout pre-committed rather than opt-in.*
+- *Schedule the first session at sign-up and send a calendar invite*
+- *Link the session to an existing routine (post-coffee, lunch break)*
+- *Add a social commitment: invite a friend, share the goal publicly*
 
-From there, each tactic generates candidate experiments:
-- *Web category page experiment* — under "merchandising different products"
-- *eCRM experiment* — also under merchandising
-- *SEO evaluation / biz case* — under "cutting out product ranges"
-- *Google Shopping Feed Test* — also under product portfolio
-- *PPC targeting experiment* — under "restricting advertising"
-- *Paid social targeting experiment* — also under media targeting
-- *Web landing page experiment* — under "modifying messaging/tone"
-- *Qualitative user testing* — also under creative messaging
+The three sit at the same altitude. They're alternatives, not steps; the team will pick one direction to invest in first.
 
-The discipline: each experiment tests assumptions specific to its parent tactic, not "does the whole young-audience strategy work?" Tests stay small and targeted.
+Candidate experiments span the validation matrix: a 10-user moderated session to understand pre-first-workout drop-off (root-cause), a painted-door landing test for the human-coach offer (desirability), and a small-segment A/B on starter-programme pre-selection (mechanism + magnitude). Each test addresses assumptions specific to its parent tactic, not "does the activation strategy work?"
 
-## 4.2 Worked example: Engagement frequency in a content product
+## 4.2 Worked example: Lifting weekly return rate in a SaaS product
 
-Here's how the same framework decomposes for a subscription content product wanting to raise return-visit frequency among low-engagement subscribers.
+A B2B SaaS team wants to raise weekly active use among admins on the standard tier who only log in once a fortnight.
 
-**Theoretical question:** *How can we increase engagement frequency among casual and low-engagement subscribers?*
+**Theoretical question:** *How can we increase weekly active rate among standard-tier admins?*
 
-**Strategic hypothesis A:** *By improving mechanisms that bring them back to the app/website*
-- *By improving the quality of push notifications*
-- *By improving the quality of other off-platform touchpoints (newsletters, podcasts)*
-- *By increasing the reach of off-platform touchpoints (more sign-up surfaces, better defaults)*
-- *By improving session continuity (logged-in state, recognised devices)*
+**Strategic hypothesis A:** *By improving mechanisms that bring them back.*
+- *Improve the weekly digest email*
+- *Add an in-product notification for actionable events*
+- *Make the dashboard the default landing page on return*
 
-**Strategic hypothesis B:** *By giving them new reasons to come / removing reasons not to*
-- *By making our platform the only place to get certain content*
-- *By distributing content on platforms where users already are*
-- *By introducing new incentives (or removing penalties/friction)*
+**Strategic hypothesis B:** *By giving them weekly reasons to come, or removing the reasons not to.*
+- *Move a key workflow from monthly to weekly cadence*
+- *Surface fresh data they currently only see on demand*
+- *Cut the friction of getting back in (SSO, longer session, recognised device)*
 
-Two things worth noting in this map:
+Two notes:
 
-1. **Strategies A and B are alternative bets, not sequential steps.** The team will pick one direction to invest in, not pursue both.
-2. **The B-strategy's first and second tactics actively contradict each other** — "only available here" vs "distribute widely." That's correct at this level. They're alternatives to choose between via experimentation, not a contradiction to resolve in advance.
-
-For comparison: an engagement-*depth* tree for the same product would look different. Strategic hypotheses about value propositions, content quality, and discovery would dominate, rather than the touchpoint/reach hypotheses that fit frequency.
+1. A and B are alternative bets, not steps. The team picks one direction to invest in first.
+2. B's tactics imply different things about whether the product currently has a weekly use case at all. If it doesn't, that's a more upstream question than this tree assumes.
 
 ## 4.3 Frequency vs depth in content products
 
 Engagement in content/subscription products usually decomposes into two largely orthogonal axes:
 
-- **Frequency** — how often does the user return?
-- **Depth** — how much do they engage in each visit?
+- **Frequency**: how often does the user return?
+- **Depth**: how much do they engage in each visit?
 
 Strategic hypotheses cluster differently for each. Frequency-side hypotheses are usually about touchpoints, habits, and reasons to return (off-platform mechanisms, push, newsletters, exclusive content). Depth-side hypotheses are usually about value, discovery, and on-content experience.
 
-When a user presents a theoretical question that mixes the two, the skill should ask them to split it — they need different hypotheses and different metrics.
+Frequency and depth show up in content products especially clearly, but the same split applies in SaaS (return cadence vs depth of session), marketplaces (return-buy rate vs basket size) and others.
 
-## 4.4 The engagement temperature model
-
-For products with varied user engagement levels (subscription content, SaaS, marketplaces), cohort segmentation by engagement state helps target the right strategic hypotheses:
-
-- **Hot** — highly engaged, frequent, deep. Don't optimise primarily for this group; you'll get false positives because they engage with almost anything.
-- **Warm** — engaged, regular. Worth growing but already converted to the proposition.
-- **Cool** — sporadic, low depth. Often the biggest opportunity for engagement-depth work.
-- **Cold** — barely engaging. Often a retention/reactivation problem, not an engagement problem.
-
-The temperature of the cohort affects which strategic hypotheses are sensible. A "build new value" hypothesis is wasted on cold users who never see the new value. A "remove friction" hypothesis is wasted on hot users who don't experience the friction.
-
-The skill should ask which cohort the work is targeting and check that the proposed hypotheses are appropriate for that cohort.
+When a user presents a theoretical question that mixes the two, the skill should ask them to split it, they need different hypotheses and different metrics.
 
 ---
 
@@ -446,17 +435,17 @@ The skill should watch for these and flag them to the user.
 
 ## 5.1 The feasibility over-index (Cagan)
 
-Teams systematically pick assumptions and experiments engineers are comfortable with — technical spikes, prototypes, build-and-A/B-test. They under-invest in value and viability questions, which are scarier and harder. If a user's assumption list has zero desirability or value-chain assumptions, push back hard.
+Teams systematically pick assumptions and experiments engineers are comfortable with: technical spikes, prototypes, build-and-A/B-test. They under-invest in value and viability questions, which are scarier and harder. If a user's assumption list has zero desirability or value-chain assumptions, push back hard.
 
 ## 5.2 Metric thinking vs systems thinking (Longden)
 
-Picking the highest-projected-impact initiative without considering systems effects. Classic case: aggressive price-cuts boost short-term revenue (Initiative #1, +$50k) while eroding brand perception (Initiative #1, –$80k over 18 months, invisible in the quarter).
+Picking the highest-projected-impact initiative without considering systems effects. Classic case: a 20% discount campaign lifts quarterly revenue but suppresses full-price conversion for the following two quarters as customers learn to wait for promotions.
 
 When a user proposes a tactic, ask: *what are the second-order effects? What might this break elsewhere? What's the downstream impact on other metrics or brand?* If the answer is "I haven't thought about it," that's a value-chain assumption gap.
 
 ## 5.3 Sense-checking vs experimenting (Longden)
 
-"We A/B tested the feature when we shipped it" is not experimentation — it's sense-checking. By the time the feature is built, the assumptions baked in are already mostly determined. Real experimentation happens before the build, testing the assumptions that justify the build.
+"We A/B tested the feature when we shipped it" is not experimentation; it's sense-checking. By the time the feature is built, the assumptions baked in are already mostly determined. Real experimentation happens before the build, testing the assumptions that justify the build.
 
 The skill enforces this by requiring assumption-level testing before solution design.
 
@@ -470,11 +459,11 @@ Building the full feature, releasing, watching metrics, hoping. The horse-race l
 
 ## 5.6 A/B testing as innovation
 
-A/B tests are an optimisation tool, not an innovation tool. They tell you which of two variants is better within a known framework. They don't tell you whether you should be in that framework at all. For genuinely novel propositions, A/B testing is the wrong method — you need qualitative validation first, then concept tests, then prototype tests, then A/B as the final check.
+A/B tests are an optimisation tool, not an innovation tool. They tell you which of two variants is better within a known framework. They don't tell you whether you should be in that framework at all. For genuinely novel propositions, A/B testing is the wrong method: you need qualitative validation first, then concept tests, then prototype tests, then A/B as the final check.
 
 ## 5.7 Mistaking correlation for causation in value-chain assumptions
 
-"Newsletter subscribers return 4x more often than non-subscribers." Almost certainly inflated by selection bias — people who sign up were already going to return more. The skill should always require causal-leaning evidence (matched-pair, propensity-matched, or quasi-experimental) for value-chain assumptions, not raw correlations.
+"Users who enable notifications retain at 3x the rate of those who don't." Almost certainly inflated by selection bias: people who enable were already going to retain more. The skill should always require causal-leaning evidence (matched-pair, propensity-matched, or quasi-experimental) for value-chain assumptions, not raw correlations.
 
 ---
 
