@@ -159,14 +159,17 @@ For each priority tactic, the PM lists assumptions. The skill helps surface them
 | 2 | **Must include at least one root-cause assumption** | *"The drop-off is because of X, not Y or Z"* | Only problem/desirability/mechanism types |
 | 3 | **Must include at least one value-chain assumption** | *"The proximate metric → business metric"* | All assumptions are about the immediate intervention |
 | 4 | **Must not all be of one type** | Mix of problem, root-cause, desirability, mechanism, magnitude, value-chain | All desirability, or all mechanism |
-| 5 | **Must label each assumption by type** | Each one tagged | Untyped list |
-| 6 | **Must identify LOFAs** | 1–2 marked as "load-bearing" | None marked |
+| 5 | **Must label each assumption by type** (problem / root-cause / desirability / mechanism / magnitude / value-chain / strategic-scope) | Each one tagged | Untyped list |
+| 6 | **Must identify LOFAs via the kill-test on every assumption, not via "pick 1–2"** | Each assumption tested with section 1.11's kill-test; however many LOFAs the tactic actually has are marked (often more than the user's first instinct says) | "Pick the 1–2 most important" — biases toward identifying too few |
 | 7 | **Must be actual assumptions, not statements of fact** | *"We believe..."* or *"It's true that..."* with uncertainty | Things the team already knows from data; should be cited as evidence, not listed as assumptions |
 | 8 | **Must not be all feasibility-flavoured** (Cagan trap) | Mix of risk types | All about whether engineering can build it |
+| 9 | **Must include a *strategic / scope* assumption if the tactic has multiple plausible solution routes** | "The right surface to intervene on first" / "narrow vs broad personalisation" / "build new vs iterate existing" | Treating the choice as an implementation detail to be resolved later |
 
 ### Soft check
 
 - **Cross-reference the tactic type.** If the tactic is "off-platform touchpoint," does the assumption list include the value-chain assumption that the touchpoint causally drives return visits (not just correlates)? If not, surface it explicitly. This is the most commonly skipped assumption in this category.
+- **Discovery / findability tactics** should include both the headroom (magnitude) LOFA and the surface-choice (strategic / scope) LOFA. Both were missing from v0.1 default sets. See pattern-library.md 3.1.
+- **The LOFA chain.** When multiple LOFAs are identified, ask: do they form a dependency chain (where if upstream fails, downstream is moot)? Writing the chain order in the doc tells the user where the test sequence must start. A LOFA list without ordering invites the user to test downstream cheaply and discover too late that upstream was the real blocker.
 
 ---
 
@@ -178,11 +181,13 @@ For each assumption, the PM rates evidence as High / Medium / Low / None.
 
 | # | Criterion | What good looks like | What bad looks like |
 |---|---|---|---|
-| 1 | **High-confidence assumptions must cite evidence** | *"High: we have funnel data from Q3 showing X, plus user research from Y"* | *"High: we just know"* |
-| 2 | **Not all High** | Realistic mix; usually 1–3 High at most for a new tactic | Everything rated High (almost certainly overconfidence) |
-| 3 | **"Team agrees" is not evidence** | Cite data, research, or analogous case | *"High: the team is aligned on this"* |
-| 4 | **Confidence rating should reflect causal evidence for value-chain assumptions** | High only if matched-pair, quasi-experimental, or strong analogous evidence | High based on raw correlation |
-| 5 | **LOFAs with low confidence must have an experiment proposed** | Skill moves to experiment design for each | Marked low-confidence but no test planned |
+| 1 | **High AND Medium ratings must cite evidence in one sentence** | *"High: funnel data from Q3 showing X, plus user research from Y"* / *"Medium: industry research from FT Strategies, no Telegraph-specific test yet"* | *"High: we just know"* / *"Medium: feels about right"* |
+| 2 | **No-citation = downgrade.** If the user can't produce a one-sentence source, the rating drops. Medium → Low. High → Medium (then re-ask). | The skill enforces this every time. | Letting Medium ride without justification is the common failure — it's the rating people give when they want to feel comfortable without committing. |
+| 3 | **Not all High** | Realistic mix; usually 1–3 High at most for a new tactic | Everything rated High (almost certainly overconfidence) |
+| 4 | **"Team agrees" is not evidence** | Cite data, research, or analogous case | *"High: the team is aligned on this"* / *"Medium: the team thinks so"* |
+| 5 | **Confidence rating should reflect causal evidence for value-chain assumptions** | High only if matched-pair, quasi-experimental, or strong analogous evidence; Medium needs at least directional internal data | High or Medium based on raw correlation |
+| 6 | **LOFAs with low confidence must have an experiment proposed** | Skill moves to experiment design for each | Marked low-confidence but no test planned |
+| 7 | **Watch for ratings that contradict earlier user statements.** If the user earlier said an assumption was a known weakness or "we're worried about this", and then rates it Medium without explanation, pause and ask what changed. | "You flagged E as a known concern; rating it Medium now — does that mean it's been resolved, or does Medium here mean 'works for engaged but uncertain for cool/cold'?" | Letting a flagged concern silently become "Medium = fine". |
 
 ### Soft check
 
@@ -198,16 +203,22 @@ For each low-confidence high-importance assumption, the skill proposes the light
 
 | # | Criterion | What good looks like | What bad looks like |
 |---|---|---|---|
-| 1 | **Must propose the cheapest test that could falsify the assumption** | Existing data analysis before user interviews before fake-door before A/B | Skipping straight to A/B |
-| 2 | **Test must match the assumption type** | Per the matrix in `pattern-library.md` 1.8 | Mismatched (e.g., A/B test for a desirability assumption) |
-| 3 | **Must have explicit decision criteria** | *"If X happens, we Y; if Z happens, we W"* | *"We'll see what the data shows"* |
-| 4 | **Experiment fidelity must match cost of failure** | Cheap test for cheap tactic; high-fidelity for irreversible decisions | Low-fidelity test before killing a major product line |
-| 5 | **Must specify success threshold** | A numeric threshold or direction with magnitude | *"If it goes up"* |
-| 6 | **Should sequence experiments** | Cheapest assumption tests first, gating later expensive ones | Parallel build-everything approach |
+| 1 | **Must write the priority list of assumptions *before* drafting any experiments.** Priority order: low-confidence LOFAs first (ordered upstream-to-downstream in the LOFA chain), then low-confidence non-LOFAs that gate a solution path, then implementation / scope work. | Priority list at the top of the experiments section, then experiments drafted in that order. | Drafting experiments in invention order or by wave-of-cost; getting half-way through and realising the wrong assumption is being tested first. |
+| 2 | **Must draft experiments in priority order, not reading or invention order.** The first experiment drafted tests the highest-priority assumption (usually the most upstream LOFA). If a downstream experiment is easier to picture, that's a signal it should be tested more cheaply upstream first. | First-drafted experiment ID = `Exp-<top-LOFA-letter>-1`. | First-drafted experiment is a CTR probe for a mechanism assumption when the headroom LOFA hasn't been tested. |
+| 3 | **Must use stable experiment IDs tied to the assumption tested, not sequential numbers.** | *Exp-F-1*, *Exp-B-1*, *PB-I-1*. Re-ordering the plan doesn't break references. | *1.1, 1.2, 1.3...* — re-ordering forces hand-updates of every downstream reference. (Sequential wave names like *Wave 1 / Wave 2* are fine; sequential *experiment* numbers within waves are the problem.) |
+| 4 | **Must propose the cheapest test that could falsify the assumption** | Existing data analysis before user interviews before fake-door before A/B | Skipping straight to A/B |
+| 5 | **Test must match the assumption type** | Per the matrix in `pattern-library.md` 1.8, and the tactic-specific defaults in 3.1–3.5 | Mismatched (e.g. A/B test for a desirability assumption) |
+| 6 | **Must have explicit decision criteria** | *"If X happens, we Y; if Z happens, we W"* | *"We'll see what the data shows"* |
+| 7 | **Experiment fidelity must match cost of failure** | Cheap test for cheap tactic; high-fidelity for irreversible decisions | Low-fidelity test before killing a major product line |
+| 8 | **Must specify success threshold** | A numeric threshold or direction with magnitude | *"If it goes up"* |
+| 9 | **Stage gates only go where LOFA tests sit above them.** Each gate evaluates the LOFA test(s) immediately preceding it. | Gate after Wave 1 if Wave 1 tests the LOFAs. | Gate after Wave 2 when Wave 2 tests a non-LOFA — gate has nothing real to gate on. |
+| 10 | **Gating experiments must be separated from implementation-design experiments.** Implementation / scope work goes into a "Pre-build analysis" section that runs only after the LOFA gates are green. | Strategic-scope and design-input experiments in a *Pre-build* section, IDs like *PB-I-1*. | Implementation-design work mixed into the gating waves, wasting effort if the tactic dies at a LOFA. |
+| 11 | **Should sequence experiments** | Cheapest assumption tests first, gating later expensive ones | Parallel build-everything approach |
 
 ### Soft check
 
 - **Cost-of-failure framing.** Before settling on experiment fidelity, the skill should ask: *"If we ship this and it's wrong, what does it cost to roll back? What's the brand/customer impact?"* This calibrates the fidelity level (per Longden's principle).
+- **Chain-aware sequencing.** If the LOFAs form a dependency chain (per pattern-library.md 1.11), the test sequence should follow the chain order, not just cost order. There's no point cheaply testing G ("does depth convert to retention?") if F ("is there any depth headroom at all?") hasn't been resolved.
 
 ---
 

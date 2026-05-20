@@ -78,9 +78,9 @@ Don't test "the Discover page idea" as a monolithic thing. Decompose it into the
 
 This is the most commonly skipped step in product teams and the one the skill is built to enforce.
 
-## 1.4 The six assumption types
+## 1.4 The seven assumption types
 
-Every tactic rests on a set of assumptions. The skill helps users surface them, label them, and prioritise testing. The six types:
+Every tactic rests on a set of assumptions. The skill helps users surface them, label them, and prioritise testing. The seven types:
 
 | Type | Question it asks | Example | Common failure mode |
 |---|---|---|---|
@@ -90,8 +90,11 @@ Every tactic rests on a set of assumptions. The skill helps users surface them, 
 | **Mechanism** | Will the specific change produce the response we expect? | A relocated tooltip materially reduces drop-off at step 3 of onboarding. | Skipped because "obvious." |
 | **Magnitude** | Will the effect be big enough to matter at scale? | A 2-point lift in a small-segment test will hold at full scale. | The "won the A/B test, lost in production" failure. |
 | **Value chain** | Does the proximate metric we move actually move the business metric we care about? | Newsletter opens causally drive return visits, not just correlate with them. | Almost never tested. |
+| **Strategic / scope** | Is the lever we're pulling actually the right one, vs an adjacent lever? Which surface, which build-vs-iterate, which sub-cohort do we commit to first? | The right discovery intervention is a new surface (Discover page) vs a component on an existing surface vs iterating existing personalised slots. | Often skipped entirely. Surfaces as "implementation details" mid-build when it's too late to test cheaply. |
 
-Order them in this sequence when designing experiments: cheapest and most upstream first. Killing a tactic via a problem-assumption check costs hours; killing it via a magnitude test costs weeks.
+Order them in this sequence when designing experiments: cheapest and most upstream first. Killing a tactic via a problem-assumption check costs hours; killing it via a magnitude test costs weeks. A *strategic / scope* failure tends to be discovered the most expensively of all because it's usually only noticed when a built thing doesn't move metrics and the team blames the wrong assumption.
+
+**On scope assumptions:** these are the ones the skill systematically missed in v0.1. They cover questions of *which lever / surface / sub-cohort to commit to first*, when several plausible options exist and the team has been treating the choice as an implementation detail. Worth proposing whenever a tactic could be expressed as "do X to Y", and there are multiple plausible Xs or Ys. They often kill tactics not by being wrong outright, but by causing the team to test the wrong instance of the right idea.
 
 ## 1.5 Cross-reference: the six types vs. Cagan's four big risks
 
@@ -174,7 +177,30 @@ This matters because it means experiment output should be framed as input to a d
 
 Within an assumption list, some assumptions are "load-bearing": if they're wrong, the entire tactic collapses. Borrowed from lean-startup vocabulary as **Leap of Faith Assumptions** (LOFAs). The skill should explicitly identify which assumptions are LOFAs and ensure those get the most rigorous testing earliest.
 
-A useful test: *"If I learned tomorrow that this assumption was wrong, would I kill this tactic, or would I just adjust the solution?"* If the answer is "kill the tactic," it's a LOFA.
+### The kill-test
+
+For each assumption, run the test:
+
+> *"If we learned tomorrow that this assumption was wrong, what dies?"*
+
+Three possible answers, with three different markings:
+
+1. **The whole tactic dies.** → **LOFA**. No solution within the tactic survives. Mark with `LOFA` and prioritise testing first.
+2. **One solution path dies, others survive.** → **load-bearing for that path, not the tactic.** Mark with something like "load-bearing for the algorithmic route" or "gates the new-surface option". Important to test, but not a LOFA in the kill-the-tactic sense.
+3. **The tactic survives with a minor adjustment.** → standard assumption. Test if low-confidence, leave alone if not.
+
+### What the skill must do
+
+- **Run the kill-test on *every* assumption.** Don't ask the user "which 1–2 of these are LOFAs?" — that biases toward identifying too few. Run the test on each in turn.
+- **Don't cap LOFAs at 1 or 2.** A tactic with three LOFAs is a tactic with three independent ways to die; that's information the experiment plan needs to reflect.
+- **LOFAs often form a dependency chain.** For example, in a discovery tactic: F = "is there session-length headroom?"; B = "is discovery the right lever?"; G = "does a depth lift convert to retention?". Each is independently load-bearing; the chain runs F → B → G. Identify and write the chain order in the doc — it tells the user where the test sequence has to start.
+- **Demote-when-true is allowed and important.** If a user pushes back on a LOFA designation because the tactic could survive on an alternative solution path (e.g. editorial curation if the personalisation engine fails), demote to "load-bearing for path X" and update the experiment plan accordingly. This isn't the user "softening" the test — it's a more accurate reading of what's actually load-bearing.
+
+### Common LOFA misidentifications
+
+- **Marking only the most obvious LOFA.** Often the root-cause assumption ("is discovery the right lever?") gets missed because it sounds like background context.
+- **Marking feasibility assumptions as LOFAs.** Feasibility ("can we build the engine?") is rarely a true LOFA — most engineering challenges have alternative solution paths. See the Cagan trap (section 5.1).
+- **Marking high-confidence assumptions as LOFAs.** A LOFA the team is already confident about isn't a LOFA in practice; it's a known constraint. Cite the evidence and move on.
 
 ## 1.12 Growth experiments vs optimisation
 
@@ -294,15 +320,34 @@ Examples: Discover page, homepage personalisation, search improvements, content 
 
 Applies to any catalogue product where users need to find something specific: content, products, listings, courses.
 
-**Typical assumption set:**
+**Typical assumption set (run the kill-test in 1.11 on each):**
 1. *(Problem)* The cohort genuinely fails to find content they'd engage with, observable in their current behaviour, not just inferred.
-2. *(Root cause, usually the LOFA)* The failure is due to discovery friction, not lack of time, lack of interest, or content-catalogue gaps.
-3. *(Desirability)* Better-surfaced content would actually be consumed, not just seen.
-4. *(Mechanism)* The proposed discovery surface is meaningfully better than what exists today.
-5. *(Magnitude)* The lift is large enough to matter at cohort level, not just per-session.
-6. *(Value chain)* More content discovered → more engagement depth → improved retention metric.
+2. *(Root cause, often a LOFA)* The failure is due to discovery friction, not lack of time, lack of interest, substitution to other media, or content-catalogue gaps. **If this is wrong, no discovery intervention works — the lever is wrong.**
+3. *(Magnitude, often a LOFA)* There is engagement headroom to capture for this cohort at all. They aren't structurally time-constrained (commute reading, snacking sessions). **If this is wrong, no discovery intervention works — there's no raw material to act on.**
+4. *(Desirability)* Better-surfaced content would actually be consumed, not just seen. Stated preference for personalisation is common in industry reports; revealed preference often diverges.
+5. *(Mechanism)* The proposed discovery surface or change is meaningfully better than what exists today.
+6. *(Mechanism / data quality)* The personalisation infrastructure (ranking, content metadata, behavioural signal) is good enough to serve the target cohort *today*, including low-signal sub-cohorts (cold-start case).
+7. *(Strategic / scope, often a LOFA when multiple surfaces are plausible)* The right surface to intervene on first. Three meaningfully different routes typically exist: (a) build a net-new surface (Discover page); (b) add a new personalised component to an existing surface (homepage module); (c) iterate on existing personalised surfaces (on-article rec units). They have different cost, reach, and cold-start profiles. Wrong choice here can mean a working engine and a clean theory still failing in market.
+8. *(Mechanism / strategy)* The right *content mix* (narrow vs broad) is detectable and routable per session intent. Narrowing isn't a universal good; breadth-of-readership often predicts engagement.
+9. *(Value chain, often a LOFA)* More content discovered → more engagement depth → improved retention metric. The depth → retention link is often *assumed* but counter-prior research (e.g. Medill / Mather "habit > intensity") suggests regularity may dominate.
 
-**Common skipped assumption:** #2. Teams treat the discovery-friction explanation as obvious. It often isn't.
+**Common skipped assumptions:**
+- #2 (root cause): teams treat discovery friction as obviously the explanation. It often isn't; substitution, life-stage, and structural session-length ceilings compete with it.
+- #3 (magnitude / headroom): rarely tested. Without headroom, the tactic dies at the source regardless of how good discovery becomes.
+- #7 (strategic / scope): typically treated as an implementation detail and discovered as a problem mid-build.
+- #9 (value chain): assumed by analogy to other cohorts. For low-engaged cohorts specifically, the depth → retention link can break.
+
+**Default cheap experiment designs for discovery tactics:**
+
+| Assumption tested | Cheap experiment | Where it fits in the chain |
+|---|---|---|
+| Magnitude / headroom (#3) | **Engagement-spike trigger and trajectory analysis.** Identify cool/low-engaged subscribers who had a sustained engagement spike. Classify the trigger (controllable vs exogenous), then matched-pair against non-spike cohort to check whether the spike sustained and converted to weekly visits and retention. | Tests headroom (#3) directly; partially tests value chain (#9) via the trajectory cut. The most efficient single retrospective. |
+| Root cause (#2) | **Discovery-path engagement comparison.** Within the target cohort, compare session depth across entry paths: curated paths (homepage, channel index) vs bypass paths (search, push, newsletter, direct). If bypass-path users engage materially more deeply, curation is plausibly the friction. Match on tenure and persona to reduce selection bias. | Tests root cause (#2). Caveat: residual selection effects; treat alongside spike-trigger analysis, not as a verdict. |
+| Mechanism / data quality (#6) | **Offline personalisation eval** on the target cohort's history if infrastructure allows. Otherwise: **historical analysis of a previous personalised surface** (e.g. a homepage "for you" trial) segmented by engagement cohort. If neither available, a **small in-product CTR probe** comparing engine output to editorial baseline. | Tests engine quality for the cohort, separate from whether discovery is the right lever. Cheaper retrospectives first. |
+| Mechanism / strategy (#8) | **On-article recommendation performance by topic and entry channel.** Check whether narrow-vs-broad has a clean pattern by topic or by inferred session intent. Implementation-design work — runs *after* the gating LOFAs are resolved. | Pre-build, not gating. Informs the design of whatever gets built in the full test. |
+| Strategic / scope (#7) | Use the historical-surface retrospectives as a triangulation: *(a)* a prior new-surface attempt (e.g. My Telegraph) informs route (a); *(b)* a prior personalised-component-on-existing-surface trial informs route (b); *(c)* aggregate performance of existing personalised slots informs route (c). The strongest signal of the three informs which route to build first. | Resolved at the stage gate after the LOFA tests. |
+
+The whole pattern: spike analysis + path comparison cover the two cheapest LOFA tests. Combined with one historical-surface retrospective per available route, they form the standard Wave 1 of a discovery-tactic experiment plan.
 
 ## 3.2 On-content engagement tactics
 

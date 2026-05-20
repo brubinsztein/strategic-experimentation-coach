@@ -159,44 +159,94 @@ Load `references/pattern-library.md` section 2.4 and the Phase 5a reject criteri
 
 Load `references/pattern-library.md` Part 3 (assumption sets by tactic type) and the Phase 5b reject criteria in `references/pushback-rules.md`.
 
-1. Identify which tactic type from Part 3 best matches: discovery/findability, on-content engagement, off-platform touchpoint, new value proposition, onboarding/activation, or other. If "other", build a custom set from the six assumption types in section 1.4.
-2. Propose the typical assumption set for that tactic type (usually 5–10 assumptions), each tagged by type (problem / root-cause / desirability / mechanism / magnitude / value-chain). Propose more than you expect the user to keep.
-3. Present the list via `AskUserQuestion` (`multiSelect: true`) so the user picks which to keep. If you have more than 4 assumptions, split across two calls grouped sensibly (e.g. problem/root-cause/desirability in one, mechanism/magnitude/value-chain in another). Follow with one open-prose turn for additions.
-4. Mark LOFAs. On first mention in any session, explain the term inline: _"The next step is to mark the LOFAs, short for Leap of Faith Assumptions. These are the load-bearing ones: if they turn out to be wrong, the whole tactic dies, not just the specific solution under it. Lean-startup vocabulary; useful shorthand once you're using it."_ Then ask: _"Which 1–2 of these are LOFAs for this tactic?"_ See section 1.11 for the test the user can apply. On later mentions in the same session, use "LOFA" without re-explaining.
-5. Check against Phase 5b reject criteria: at least 5 assumptions, at least one root-cause and one value-chain, not all of one type, each labelled by type, LOFAs marked, all genuinely uncertain (cite-as-evidence things that are already known), not all feasibility-flavoured (the Cagan trap from section 1.5).
+1. Identify which tactic type from Part 3 best matches: discovery/findability, on-content engagement, off-platform touchpoint, new value proposition, onboarding/activation, or other. If "other", build a custom set from the seven assumption types in section 1.4 (problem, root-cause, desirability, mechanism, magnitude, value-chain, strategic/scope).
+2. Propose the typical assumption set for that tactic type (usually 5–10 assumptions), each tagged by type. Propose more than you expect the user to keep. Where the tactic has multiple plausible solution routes (different surfaces, build-vs-iterate, narrow-vs-broad), make sure at least one *strategic / scope* assumption is in the proposed set — these are commonly skipped but kill tactics if wrong.
+3. Present the list via `AskUserQuestion` (`multiSelect: true`) so the user picks which to keep. If you have more than 4 assumptions, split across two calls grouped sensibly (e.g. problem/root-cause/desirability in one, mechanism/magnitude/value-chain/scope in another). Follow with one open-prose turn for additions.
+4. Run the LOFA kill-test on *every* assumption that survives. Don't ask the user "which 1–2 are LOFAs?" — that biases toward identifying too few. Instead, for each assumption in turn, run the test in section 1.11: *"If this turned out to be wrong, would the whole tactic die, or would only some solutions within it die?"* Three outcomes:
+   - **Whole tactic dies → LOFA.** Mark it.
+   - **One solution path dies but other paths survive → "important, not LOFA".** Mark it as load-bearing for the affected path only, not the tactic.
+   - **Tactic survives with minor adjustment → not load-bearing.** Standard assumption.
 
-   Apply the soft check for the tactic type. For off-platform touchpoint tactics, check explicitly for the "touchpoint causally drives return visits, not just correlates" value-chain assumption — it is almost universally skipped.
+   On first mention in any session, explain LOFA inline: _"Quick gloss: LOFA = Leap of Faith Assumption. The kind that kills the whole tactic if it's wrong, not just one solution within it. Lean-startup vocabulary; useful shorthand once you're using it."_ The kill-test produces however many LOFAs the tactic actually has — could be one, could be four. Don't cap.
+5. Check against Phase 5b reject criteria: at least 5 assumptions, at least one root-cause and one value-chain, scope assumption present if the tactic has multiple solution routes, not all of one type, each labelled by type, LOFAs identified via the kill-test, all genuinely uncertain (cite-as-evidence things that are already known), not all feasibility-flavoured (the Cagan trap from section 1.5).
+
+   Apply the soft check for the tactic type. For off-platform touchpoint tactics, check explicitly for the "touchpoint causally drives return visits, not just correlates" value-chain assumption — it is almost universally skipped. For discovery / findability tactics, check that the scope assumption (which surface to intervene on) is present.
 
 #### Phase 5c — Confidence ratings
 
 Load Phase 5c reject criteria in `references/pushback-rules.md` and section 1.9 of `references/pattern-library.md`.
 
 1. For each assumption, ask the user to rate evidence as High / Medium / Low / None using `AskUserQuestion` (`multiSelect: false`, four options). Batch up to 4 assumptions in a single call (one question per assumption, within the 4-question cap). For longer assumption lists, run a second call.
-2. For each High, ask the user to cite the evidence. Push back if "team agrees" or "we just know" is offered. Example: "Team alignment isn't evidence — it's a shared prior. What's the data or research behind it? If there isn't any, this is better rated Medium or Low."
-3. For value-chain assumptions rated High, require causal-leaning evidence (matched-pair, propensity-matched, quasi-experimental, or strong analogous case). Raw correlations don't qualify (see section 5.7).
-4. Apply the distribution soft check. If 80%+ are High, ask: _"That's a lot of high confidence for new work. Which would you say is the one you're least sure about?"_
-5. Write the assumption list — with types, LOFAs, confidence, and evidence citations — to `01-<tactic-slug>.md`.
+2. **For each High *and* each Medium, ask the user to cite the evidence in one sentence.** This is where the skill earns its keep — Medium is the rating people give when they want to feel comfortable without justifying it. The citation doesn't need to be deep; it just needs to name the source (a specific report, dataset, prior test, industry analogue). Push back if "team agrees", "we just know", or "industry consensus" is offered without a source. Example: "Team alignment isn't evidence, it's a shared prior. What's the data, research, or analogous case behind it? If there isn't a specific one, this is better rated Low." If no citation can be produced, downgrade the rating: Medium → Low; High → Medium (and then re-ask for evidence).
+3. For value-chain assumptions rated High *or* Medium, require causal-leaning evidence (matched-pair, propensity-matched, quasi-experimental, or strong analogous case). Raw correlations don't qualify (see section 5.7). Without that, value-chain assumptions cap at Low.
+4. When a user rates an assumption higher than they earlier flagged it as a concern, pause. Ask explicitly: _"You mentioned earlier this might be a weakness — what changed? Or does this rating mean something narrower (e.g. 'works for engaged users but uncertain for this cohort')?"_ Log whichever they say. Don't let an earlier-flagged concern silently become "Medium = fine".
+5. Apply the distribution soft check. If 80%+ are High, ask: _"That's a lot of high confidence for new work. Which would you say is the one you're least sure about?"_
+6. Write the assumption list — with types, LOFAs (from the kill-test in 5b), confidence ratings, and evidence citations — to `01-<tactic-slug>.md`. Every High and Medium row must have an evidence citation; assumptions without citations get written at Low.
 
 ### Phase 6 — Experiment design
 
 Load `references/pattern-library.md` sections 1.6 through 1.11 and the Phase 6 reject criteria in `references/pushback-rules.md`.
 
-1. Identify which assumptions to test. In order: low- or no-confidence LOFAs first, then low-confidence high-importance non-LOFAs. High-confidence assumptions can usually be left alone; low-importance assumptions are not worth the test.
-2. For each, propose the cheapest experiment that could falsify it, drawing from the assumption-to-experiment matrix in section 1.8 and the validation methods matrix in section 1.7. Sequence cheapest-first, gating later expensive tests on earlier cheap ones.
-3. Draft for each experiment:
-   - The assumption it tests
-   - The method (cheapest viable)
-   - The success threshold (numeric where possible, otherwise direction with magnitude)
-   - Decision criteria: _"If X, we will Y. If Z, we will W."_ (Section 1.10 — experiments inform decisions, they are not decisions.)
-4. Apply the cost-of-failure soft check before settling on fidelity: _"If we ran this tactic at full scale and the assumption turned out wrong, what would it cost to roll back? What's the brand or customer impact?"_ Use the answer to calibrate. Cheap-and-reversible tactics deserve cheap tests; irreversible decisions deserve test-flight-level rigor (section 1.6).
-5. Check against Phase 6 reject criteria: cheapest test first, method matches assumption type, explicit decision criteria, fidelity matches cost of failure, success threshold specified, sequenced not parallel-build.
-6. Write the experiment plan to `01-<tactic-slug>.md`, sequenced, with a "Next steps" section naming who would run each experiment.
+1. **Sort assumptions for testing by importance and confidence, in this order:**
+   1. Low- or no-confidence LOFAs (from Phase 5b's kill-test). All of them, ordered by where they sit in the causal chain — the most upstream one first (no point testing "does X convert to Y" if "is X even possible" hasn't been resolved).
+   2. Low-confidence non-LOFA assumptions that are still load-bearing for one solution route.
+   3. Assumptions that inform implementation (e.g. *strategic / scope* questions like which surface to test on, or design questions like narrow-vs-broad).
+   4. High-confidence assumptions: usually leave alone. Low-importance assumptions: not worth the test.
 
-### Phase 7 — Handoff
+   Write this priority list out *before* drafting any experiments. The list goes into the doc as the opening of the Phase 6 section so a stakeholder reading cold sees the ranking before the methods.
 
-1. Present the completed `01-<tactic-slug>.md` in full. Read back the hypothesis statement, the LOFAs, the first experiment, and the decision criteria.
+2. **Draft experiments in priority order, not invention order.** The first experiment drafted is the test for the highest-priority assumption (usually the most upstream LOFA). Don't draft a Wave 2 / 3 / later experiment until the earlier ones are written. If you find yourself reaching for a downstream experiment first because it's easier to picture, that's a signal you should test the upstream assumption more cheaply first.
+
+3. **Use stable experiment IDs tied to the assumption being tested, not sequential numbers.** Format: *Exp-<assumption-letter>-<n>* — e.g. *Exp-F-1* tests assumption F, *Exp-B-1* tests assumption B. If multiple experiments test the same assumption, use Exp-F-1, Exp-F-2, etc. This means reordering the experiment plan doesn't break references downstream. Group experiments into *waves* (e.g. Wave 1 = retrospective data work, Wave 2 = light in-product, Wave 3 = full test) by cost, not by assumption. Each wave can contain experiments testing several different assumptions.
+
+4. For each experiment, propose the cheapest method that could falsify the assumption, drawing from the assumption-to-experiment matrix in section 1.8 and the validation methods matrix in section 1.7. Sequence cheapest-first; gate later expensive tests on earlier cheap ones.
+
+5. Draft for each experiment:
+   - **ID and assumption tested** (e.g. *Exp-F-1, tests F*)
+   - **What we want to learn** (one or two specific questions, plain English)
+   - **Method** (the cheapest viable)
+   - **Success threshold** (numeric where possible, otherwise direction with magnitude)
+   - **Decision criteria**: _"If X, we will Y. If Z, we will W."_ (Section 1.10 — experiments inform decisions, they are not decisions.)
+
+6. **Identify where stage gates sit.** A stage gate goes immediately after the experiment(s) that test a LOFA. Don't place a stage gate where there is no LOFA test sitting above it — that's a gate with nothing to gate on. If multiple LOFAs are tested in one wave, the gate evaluates all of them together. Each gate names: what it's deciding, the success criteria for green/yellow/red, and what happens at each colour.
+
+7. **Split gating experiments from implementation-design experiments.** Assumptions tagged *strategic / scope* or design-flavoured (e.g. narrow-vs-broad routing rules) inform *how* the next build is shaped, not *whether* to build. These go into a separate "Pre-build analysis" section that runs only after the relevant stage gate is green. Don't put implementation-design work into the gating waves — it wastes effort if the tactic dies at a LOFA.
+
+8. Apply the cost-of-failure soft check before settling on fidelity: _"If we ran this tactic at full scale and the assumption turned out wrong, what would it cost to roll back? What's the brand or customer impact?"_ Use the answer to calibrate. Cheap-and-reversible tactics deserve cheap tests; irreversible decisions deserve test-flight-level rigour (section 1.6).
+
+9. Check against Phase 6 reject criteria: priority list written first, experiments drafted in priority order, stable IDs used, cheapest test first, method matches assumption type, explicit decision criteria, fidelity matches cost of failure, success threshold specified, sequenced not parallel-build, stage gates placed only where LOFA tests sit, implementation-design work separated from gating work.
+
+10. Write the experiment plan to `01-<tactic-slug>.md`, sequenced, with a "Next steps" section naming who would run each experiment.
+
+### Phase 7 — Stakeholder polish and handoff
+
+#### 7a — Stakeholder polish
+
+Before reading back the doc, do a polish pass. The artefact at this point typically reads like a working doc (internal vocabulary, phase labels, jargon). A stakeholder seeing it cold will struggle. The fix isn't optional.
+
+Apply these in order:
+
+1. **Strip internal scaffolding from headings.** Remove "Phase 5a / 5b / 5c / 6" labels; replace with content-based names (*Hypothesis*, *Assumptions*, *Confidence and evidence*, *Experiments*). Phase numbers are framework metadata, not stakeholder content.
+
+2. **Gloss every imported term on first use *in the final doc*, not just on first use in the conversation.** LOFA, root-cause assumption, value-chain assumption, scope assumption, the Cagan trap, horse-race ladder, counter-prior. The conversation gloss doesn't carry into the doc; a stakeholder reading the doc cold doesn't have it. Add a one-sentence plain-English gloss the first time each term appears in the *artefact*.
+
+3. **Replace internal jargon with plain English where it doesn't earn its keep.** Examples to watch for: *counter-prior* → *evidence pointing the other way*; *load-bearing* → use sparingly, prefer plainer phrasing like *the one that decides everything*; *direct counter-prior* → just *counter-prior* with gloss, or *direct evidence against this*. Keep technical terms where they're load-bearing (LOFA itself, the assumption-type names) but always with first-use gloss.
+
+4. **Open each major section with the point, not the framework.** Experiment sections in particular should open with "the priority of assumptions to test" or "here's how we'll test in order of cost", not a wave-by-wave explanation. Stakeholders want to know what's load-bearing, then how the test sequence supports it.
+
+5. **Anti-AI-writing pass.** Run the checks in the humanizer guide (or equivalent): drop em-dash overuse, drop the rule-of-three padding, drop forced parallelism, prefer active voice, drop "AI vocabulary" words (delve, leverage, ensure, navigate, etc.), drop sycophantic openers ("Great question!"), drop chatbot artefacts ("Hope this helps"). Vary sentence length. The skill's output style influences how the user pitches the work — it should sound like a sharp human, not a templated artefact.
+
+6. **Consistent cohort and entity naming.** Pick one form ("cool/cold subscribers", "casual subscribers", etc.) and use it throughout. Inconsistency triggers stakeholder confusion about whether different terms mean different things.
+
+7. **Surface any deferred items in one place.** "Open items to chase before Wave 1 starts" or similar — a short list at the end of the Confidence section. Resolves what's known, what's not, and what needs chasing before any spend.
+
+If a humanizer skill (or equivalent) is available in the environment, invoke it on the per-tactic doc as the final step of 7a. If not, apply the checks above manually.
+
+#### 7b — Handoff conversation
+
+1. Present the polished `01-<tactic-slug>.md` in full. Read back the hypothesis statement, the LOFAs (named individually, not just "the LOFAs"), the first experiment, and its decision criteria.
 2. Ask whether to continue with the next priority tactic now or end the session.
-3. If continuing, return to Phase 5 with the next tactic. The new file is `02-<tactic-slug>.md`, then `03-…`.
+3. If continuing, return to Phase 5 with the next tactic. The new file is `02-<tactic-slug>.md`, then `03-…`. Each new tactic doc gets its own 7a polish pass at the end.
 4. When all priority tactics are done, or the user ends, summarise what's in `./strategic-experiments/<question-slug>/` and stop. Do not propose next steps the user did not ask for.
 
 ## Terminal state
