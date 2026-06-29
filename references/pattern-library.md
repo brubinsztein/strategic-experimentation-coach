@@ -458,6 +458,7 @@ One problem hypothesis usually spawns several solution hypotheses (1a, 1b, 1c). 
 
 - **How several solutions hang under one problem.** Each is an alternative bet on the same broken behaviour, not a step. Under "in-article CTR is low for this cohort": 1a serves more relevant recommendations, 1b removes units to cut decision load, 1c changes the unit's placement. The team picks the highest learning-value bet first.
 - **Spotting solutions that share a LOFA.** Read the LOFA lists across all solutions under a problem (and across problems). If the same load-bearing assumption appears under more than one, mark it shared and route it to a single upstream test (§1.11). This is where the biggest time savings live: one test settles a premise that several solutions all rest on.
+- **Carry build cost on each candidate.** Where solutions vary by channel or vehicle, state the rough build or infrastructure cost alongside each one as it is proposed, so the cheap-to-build path is visible during selection rather than discovered after. A candidate that reuses an existing channel (an email that houses its own content) is a different bet from one that needs a new surface built (a push that needs an on-site destination to land on), even when both attack the same problem.
 
 ---
 
