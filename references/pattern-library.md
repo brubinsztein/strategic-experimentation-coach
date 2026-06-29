@@ -371,6 +371,28 @@ The most common failure is a "problem" that is really a solution in disguise:
 
 The test: a problem hypothesis should be falsifiable against data and should not pre-commit to one fix. If it names the fix, it's a solution; route it to §2.4.
 
+### Funnel decomposition (the divergence trick)
+
+A single broken behaviour often hides several distinct causes. One low number ("this cohort clicks through on fewer items") can break at any point in a sequence the user clears in order. Decomposing it into that sequence turns one fuzzy problem into a set of isolated sub-problems, each with its own surface, metric, and candidate solutions.
+
+The reusable move: take the broken behaviour and ask what has to go right, in order, for it not to break. For a discovery-surface click, a reader has to (1) see the item, (2) judge it worth opening, (3) want the content itself. Each stage is a causal axis:
+
+- **See it:** placement and salience. Is the unit even in view for this cohort?
+- **Judge it worth opening:** presentation and decision cues, trust and familiarity, choice load. Can the reader tell, from the card alone, that it is worth their time?
+- **Want the content:** content selection and relevance. Is the right thing being surfaced at all?
+
+Worked example, casual subscribers and session depth:
+
+> Parent problem: for casual subscribers, click-through on the discovery surfaces is lower than for engaged subscribers, which caps session depth.
+> - **See it:** recommendation units sit low in long articles; infrequent readers do not scroll far enough to see them.
+> - **Judge it:** the card lacks cues (read time, format, a one-line summary) a time-poor reader needs to commit; the reader recognises fewer bylines and sections; too many or too few options cause a bounce.
+> - **Want it:** the homepage is curated for core-reader topics, and the recommendation algorithm has sparse signal for infrequent users.
+
+Two rules on using it:
+
+1. **Build it with the user, do not invent it.** Propose the candidate axes and ask which are real for this cohort. The coach's job is to surface the space and let the user confirm what is true, not to hand over a finished six-box tree.
+2. **Reach for it where the axes form a sequence.** Not every problem is a funnel. Use it when the stages genuinely gate one another (you cannot judge an item you never saw); otherwise a flat list of sub-problems is honest enough.
+
 ## 2.4 Solution patterns
 
 A solution hypothesis is one falsifiable bet on how to fix a problem, written in the full format below. The old bare if-then-because is replaced by this richer form, which carries cohort, an explicit causal chain to the north-star, a guardrail, beliefs with inline confidence, and a separate LOFA list.
@@ -409,18 +431,20 @@ Rules layered on top:
 > For light-engagement subscribers of a subscription news product, the click-through rate from one article to the next is markedly lower than for core subscribers (illustrative: roughly a third of the core rate). This caps average session depth for the cohort.
 >
 > **Solution hypothesis 1a: the in-article recommendation units surface the wrong content for this cohort**
-> For light-engagement subscribers
-> If we serve more relevant recommendations in the in-article units
-> Then article-to-article click-through will increase
-> Leading to higher average session depth
-> Leading to higher average daily dwell time (the north-star)
-> Without reducing visit frequency (and over the long term we expect frequency to rise, not fall)
-> Because we believe:
+>
+> **For** light-engagement subscribers
+> **If** we serve more relevant recommendations in the in-article units
+> **Then** article-to-article click-through will increase
+> **Leading to** higher average session depth
+> **Leading to** higher average daily dwell time (the north-star)
+> **Without** reducing visit frequency (and over the long term we expect frequency to rise, not fall)
+>
+> **Because we believe:**
 > - The in-article units are a relatively more important discovery surface for this cohort, because the homepage is not tuned to their interests. (MEDIUM): would be stronger with data on where these users start sessions; if they land directly on articles rather than the homepage, this holds.
 > - The units are not working for this cohort today: their article-to-article CTR is well below other cohorts. (MEDIUM): the CTR gap is in the data, but we have not isolated the units as the cause.
 > - Article-to-article recirculation is a large driver of session depth. (MEDIUM): no cohort-specific data yet; plausible but uncited. Causal or correlational data would raise this.
 >
-> LOFAs:
+> **LOFAs:**
 > 1. Higher per-session depth will not drive visit frequency down (the depth-vs-frequency tradeoff). This is the value-chain LOFA: if depth and frequency trade off for this cohort, the north-star does not move even if the unit works.
 > 2. This cohort clicks the in-article units at all. They may instead return to the homepage or follow in-body links, especially on mobile web.
 >
@@ -559,18 +583,20 @@ This is the model for the new format. It carries a quantified problem statement,
 > For light-engagement subscribers of a subscription news product, the click-through rate from one article to the next is markedly lower than for core subscribers (illustrative: roughly a third of the core rate). This caps average session depth for the cohort.
 >
 > **Solution hypothesis 1a: the in-article recommendation units surface the wrong content for this cohort**
-> For light-engagement subscribers
-> If we serve more relevant recommendations in the in-article units
-> Then article-to-article click-through will increase
-> Leading to higher average session depth
-> Leading to higher average daily dwell time (the north-star)
-> Without reducing visit frequency (and over the long term we expect frequency to rise, not fall)
-> Because we believe:
+>
+> **For** light-engagement subscribers
+> **If** we serve more relevant recommendations in the in-article units
+> **Then** article-to-article click-through will increase
+> **Leading to** higher average session depth
+> **Leading to** higher average daily dwell time (the north-star)
+> **Without** reducing visit frequency (and over the long term we expect frequency to rise, not fall)
+>
+> **Because we believe:**
 > - The in-article units are a relatively more important discovery surface for this cohort, because the homepage is not tuned to their interests. (MEDIUM): would be stronger with data on where these users start sessions; if they land directly on articles rather than the homepage, this holds.
 > - The units are not working for this cohort today: their article-to-article CTR is well below other cohorts. (MEDIUM): the CTR gap is in the data, but we have not isolated the units as the cause.
 > - Article-to-article recirculation is a large driver of session depth. (MEDIUM): no cohort-specific data yet; plausible but uncited. Causal or correlational data would raise this.
 >
-> LOFAs:
+> **LOFAs:**
 > 1. Higher per-session depth will not drive visit frequency down (the depth-vs-frequency tradeoff). This is the value-chain LOFA: if depth and frequency trade off for this cohort, the north-star does not move even if the unit works.
 > 2. This cohort clicks the in-article units at all. They may instead return to the homepage or follow in-body links, especially on mobile web.
 >

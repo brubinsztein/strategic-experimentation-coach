@@ -1,11 +1,12 @@
 # Strategic Experimentation Skill: Design Patterns & Interaction Conventions
 
-**Version:** 0.2
+**Version:** 0.3
 **Status:** Reference. Decisions locked for v0.1 of the skill; iterate as the skill is used.
 **Purpose:** Captures the design and interaction patterns the skill follows. Read alongside `pattern-library.md` (domain content) and `pushback-rules.md` (reject criteria).
 
 ## Changelog
 
+- **v0.3** — Decisions from a trial run. Added Phase 0.5 discovery and a global `product-context.md` so the coach probes for context rather than assuming it. Added the "probe, do not assume" coaching principle, active divergence at the problem layer (with the funnel decomposition pattern and the `EMBEDDED-CAUSE-UNPROBED` criterion), a Phase 4 solution-leanings probe, and a Phase 6 test-capability probe. Made the humanizer/style pass run on every doc, not just the handoff doc, with zero em-dashes as a hard rule. Fixed the Mermaid priority class to set an explicit text colour and stripped non-tree nodes from the map diagram.
 - **v0.2** — Converted "open questions" section to "decisions made" (all seven settled). Added the humanizer skill as a recommended companion for writing quality.
 - **v0.1** — Initial draft synthesised from research on existing Claude skills.
 
@@ -233,5 +234,6 @@ These were open questions in v0.1 of this doc; settled in v0.2.
 - Once the skill is in use, the running docs become a corpus that could feed an evaluation set — useful for tuning pushback aggressiveness.
 - A companion skill for *executing* experiments (e.g., `design-user-interview`, `design-ab-test`) would be a natural extension.
 - The pattern library's "common skipped assumptions" notes could become explicit auto-fired prompts when the skill detects a matching tactic type.
-- The humanizer skill (or its principles) could be invoked as a final pass on completed running docs to improve writing quality.
+- The humanizer pass now runs on every doc at each checkpoint (v0.3), not only at handoff. A remaining question is whether to auto-detect em-dashes and AI tells programmatically rather than relying on the model.
+- Cross-session memory beyond `product-context.md` (for example remembering pushback overrides per user) stays a future question.
 - Pattern library coverage will need to expand beyond engagement/retention for the skill to be useful across domains.

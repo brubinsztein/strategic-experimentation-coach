@@ -6,9 +6,10 @@ Product teams habitually jump from a goal to a solution and only then ask "how d
 
 ## What it does
 
-The skill runs a nine-phase workflow down a six-level spine (Theoretical question → Strategic hypothesis → Problem hypothesis → Solution hypothesis → MVT → validated/production solution), with a confidence gate at each step:
+The skill runs a phased workflow down a six-level spine (Theoretical question → Strategic hypothesis → Problem hypothesis → Solution hypothesis → MVT → validated/production solution), with a confidence gate at each step:
 
 - **Phase 0**: Entry triage. Detect where you're starting (vague portfolio goal, a direction, a problem, a solution, or pure optimisation) and route entry at any altitude.
+- **Phase 0.5**: Discovery and context. Probe for the product, cohort definition, metric and baseline, prior attempts, constraints, and test capability before any problem work, and offer to save reusable context to `product-context.md`.
 - **Phase 1**: Frame a theoretical question (portfolio altitude). Push back on solution-shaped or yes/no questions.
 - **Phase 2**: Propose strategic hypotheses (portfolio altitude). Distinct directions, not rephrasings.
 - **Phase 3**: Elicit problem hypotheses: broken, observable behaviours for the cohort, grounded in data.
@@ -73,9 +74,20 @@ Or invoke it directly:
 
 ## How it works
 
-`SKILL.md` orchestrates the nine phases and the conversation contract. The two files in `references/` are loaded on demand: `pattern-library.md` for the framework and domain patterns the skill proposes, and `pushback-rules.md` for the reject criteria at each phase. The running docs are plain markdown the user can edit between sessions, so the skill re-reads them at the start of each phase rather than relying on conversation memory.
+`SKILL.md` orchestrates the phases and the conversation contract. The two files in `references/` are loaded on demand: `pattern-library.md` for the framework and domain patterns the skill proposes, and `pushback-rules.md` for the reject criteria at each phase. The running docs are plain markdown the user can edit between sessions, so the skill re-reads them at the start of each phase rather than relying on conversation memory.
+
+Context that holds across projects (the product, business model, cohorts, metrics, and terminology) is saved once to `./strategic-experiments/product-context.md` and read at the start of every project, so you do not repeat it each session. Project-specific framing stays in that project's `00-map.md`.
 
 The skill uses Claude Code's built-in `AskUserQuestion` tool for every choice, confirmation, and rating step, so the conversation moves through structured prompts rather than long prose dumps. The tool caps options at four per question; the skill is written around that constraint.
+
+## Viewing the docs
+
+The running docs use Mermaid diagrams for the tree. To see them rendered rather than as raw code:
+
+- **VS Code**: install a Mermaid preview extension (for example "Markdown Preview Mermaid Support"), then open any doc and use preview mode with `Cmd+Shift+V` (macOS) or `Ctrl+Shift+V` (Windows/Linux). The diagram and the formatted markdown render side by side with the source.
+- **GitHub** and most markdown viewers render Mermaid natively, so the diagrams show without any extension.
+
+If a diagram shows as a `mermaid` code block instead of a picture, the viewer lacks Mermaid support; install the extension above.
 
 ## Frameworks this synthesises
 

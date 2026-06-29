@@ -129,10 +129,11 @@ Elicit 1-4 problem hypotheses. Each names a broken, observable behaviour for the
 | 2 | **Must be cohort-specific** | Names the cohort and a contrast cohort | *"Engagement is low"* (whose?) |
 | 3 | **Must be grounded in data where data exists**, naming the surface or metric | *"On the in-article recommendation unit, CTR for this cohort is well below other cohorts."* | An unevidenced assertion with no metric or surface named |
 | **PROBLEM-ISOLATES** | **Must isolate the issue, so the first solution test attacks the right thing.** If the problem is left unisolated (e.g. opt-ins conflated with CTR), the first MVT may be the wrong test. Tied to the passable-vs-better critique (see end of doc). | *"CTR from the prompt is low for this cohort"* (isolated) | *"Engagement from the prompt is weak"* (could be a sign-up problem or a CTR problem; the next phase can't tell which to test) |
+| **EMBEDDED-CAUSE-UNPROBED** | **A problem statement that carries an assumed cause inside it must have that cause interrogated before the statement is confirmed.** Ask why the user believes it, on what basis, and which surface or metric shows it. Do not jump to accept or reject. | *"For this cohort, CTR on the recommendation units is low"* (cause left open for the divergence sweep) | *"CTR is low because the surface is skewed to another cohort"* (the cause is asserted, not examined; confirming it sends the first test at the wrong target) |
 
 ### Soft check
 
-- **Coverage check.** Across the problem hypotheses in this branch, are the obvious broken behaviours covered? Compare to `pattern-library.md` and flag a missing one without insisting it be added.
+- **Active divergence sweep (replaces the old coverage check).** Do not settle for the first broken behaviour the user names. Once it is isolated, propose candidate causal axes from `pattern-library.md` §2.3 (content selection, presentation and decision cues, placement and salience, choice load, trust and familiarity) and ask which are real for this cohort. Keep diverging until the user agrees the space is covered, then converge. Where the axes gate one another in sequence, render them as a funnel decomposition (§2.3). Build it with the user; do not hand over a finished tree.
 
 ---
 
@@ -167,9 +168,15 @@ Present the tree: Theoretical question → Strategic → Problem → Solution(s)
 
 ---
 
+## Phase 6, Pre-deep-dive: test capability
+
+Before drafting the full-format statement, confirm the test and targeting capability if Phase 0.5 left it open. Two questions: can the change be shown to this cohort only, and can a held-back control be run within the cohort. This is not a reject criterion; it is a probe whose answer changes which assumptions are load-bearing.
+
+- **TEST-CAPABILITY.** If the change targets one cohort only, a belief or guardrail about harm to other cohorts is moot and should be dropped, not rated. If only a before-and-after read is possible (no control), say so, because the later MVT cannot attribute the change cleanly and the decision criteria must account for it. Carry the answer into 6b so the belief and LOFA lists reflect what can actually be tested.
+
 ## Phase 6a, Full-format statement
 
-Each priority solution is restated in the full format:
+Each priority solution is restated in the full format (written into the doc as markdown with bold labels, not a code block):
 
 ```
 For [cohort]
