@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.2, 2026-06-29
+
+**Deeper probing and cleaner docs, from a trial run.** Two themes: make the coach probe instead of assume, and fix the quality of the written docs.
+
+- **New Phase 0.5, Discovery and context.** Before any problem work, the coach probes for the product, the cohort and its operational definition, the metric and baseline, prior attempts, hard constraints, and the test/targeting capability. Added to the phase checklist and process-flow diagram.
+- **Global product context file.** Context that holds across projects is saved once to `./strategic-experiments/product-context.md` and read at the start of every project. Documented in the README.
+- **Probe, do not assume (conversation contract).** A new coaching principle: ask before filling gaps, state assumptions as assumptions, build decompositions with the user rather than handing over a finished tree, and interrogate buried causal claims before accepting a statement.
+- **Active divergence at the problem layer.** Phase 3 replaces the weak coverage soft-check with an active divergence sweep across causal axes, done with the user, and adds the `EMBEDDED-CAUSE-UNPROBED` reject criterion. Added the funnel decomposition pattern to pattern-library §2.3 as a reusable trick.
+- **Solution leanings probe (Phase 4).** The coach asks the user's leanings and exclusions before proposing solution candidates.
+- **Test-capability probe (Phase 6).** Confirms targeting and control availability before beliefs and LOFAs, so a "no harm to other cohorts" belief is dropped when the change targets one cohort only. New `TEST-CAPABILITY` probe in pushback-rules.
+- **Writing quality enforced across all docs.** Zero em-dashes and complete-sentence prose are now hard contract rules, and the humanizer/style pass runs on `00-map.md` at each checkpoint, not only on the per-solution doc at handoff. This closes the gap that let em-dashes and fragments survive in the map doc.
+- **Readable diagram, no clutter.** The `:::priority` Mermaid class now sets an explicit dark text colour (`color:#1f2937`) so pale fills stay legible. The map diagram is restricted to Theory → Strategic → Problem(s) → Solution(s) with problem-to-sub-problem fan-out; LOFAs, gates, diagnoses, and MVTs are kept in prose. The map links to each per-solution doc.
+- **Markdown solution statement.** The full-format statement is written into the doc as markdown with bold labels (**For**, **If**, **Then**, **Leading to**, **Without**), not inside a code block. Updated the pattern-library exemplars to match.
+- **Template reworked.** New readable diagram, a single "What unblocks this, in order" section replacing the confusing "Next: data ask" block, a dedicated "Open gaps" section, a prose Notes block, and a per-solution docs links section.
+
 ## v1.1, 2026-06-26
 
 **Lean, recommendation-first running doc.** Reordered the running-doc template to open with the recommendation and the tree, ahead of the question and hypotheses. Moved section guidance into HTML comments so it no longer bleeds into the written doc. Merged priority order into the solution list and replaced scattered italic side-notes with a single Notes block. Added a conversation-contract rule: write the doc as a lean artifact — plain-English wrapper (recommendation, data ask, notes), framework-precise hypotheses kept intact, no process labels, and self-contained folders with no cross-references to other projects.
