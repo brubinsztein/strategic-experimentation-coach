@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.3, 2026-06-29
+
+**Sharper evidence-surfacing and leaner turns, from a trial run.** Three fixes drawn from a session where the coach designed a full test for an assumption the team had already validated, and where the coach's own turns ran longest.
+
+- **Surface prior evidence before designing a test.** The Phase 0.5 "what's been tried" probe now asks wider than formal efforts on the exact cohort, covering prior, adjacent, and informal tests and any analogue that bears on the work. Added the `EVIDENCE-CHECK` reject criterion in pushback-rules Phase 6b: as each LOFA is named, ask whether evidence already settles it before routing a fresh MVT. This stops the coach building a test for an assumption a prior trial already validated.
+- **Brevity applies to proposal turns, not only questions.** The conversation contract extends the two-sentence run-up cap to proposal turns, keeping exposition minimal and reserving length for the framework's structured statements. The coach's own turns are where verbosity creeps back.
+- **Build cost visible while choosing.** New Phase 4 soft check in pushback-rules, with a matching line in pattern-library §2.4: where candidate solutions vary by channel or vehicle, name the rough build or infrastructure cost on each as it is proposed, so the cheap-to-build path is visible during selection rather than discovered after.
+
 ## v1.2, 2026-06-29
 
 **Deeper probing and cleaner docs, from a trial run.** Two themes: make the coach probe instead of assume, and fix the quality of the written docs.
